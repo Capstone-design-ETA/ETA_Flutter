@@ -8,6 +8,7 @@ class WritingView extends StatefulWidget {
 }
 
 class _WritingViewState extends State<WritingView> {
+  DateTime? selectedDate;
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
 
@@ -27,36 +28,78 @@ class _WritingViewState extends State<WritingView> {
             onPressed: () {},
             icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black)),
       ),
-      body: Padding(
-        padding: const EdgeInsets.all(30.0),
+      resizeToAvoidBottomInset : false,
+      body: Container(
+        padding: EdgeInsets.all(20.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
-            SizedBox(
+            Container(
               width: 100,
               height: 100,
-              child: Icon(Icons.camera_alt, color: Color(0xFF8474F7)),
+              child: Icon(
+                Icons.camera_alt,
+                color: Color(0xFF8474F7),
+                size: 30,
+              ),
             ),
             Text(
               '날짜',
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
+              style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w700),
             ),
             SizedBox(height: 10.0),
-            TextField(
-                controller: titleController,
-                keyboardType: TextInputType.text,
-                cursorColor: Colors.black87,
-                decoration: InputDecoration(
-                    contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-                    border: OutlineInputBorder(
-                      borderRadius: BorderRadius.circular(10.0),
-                      borderSide: BorderSide.none,
-                    ),
-                    filled: true)),
+            Container(
+              width: double.infinity,
+              child: ElevatedButton(
+                onPressed: () async {
+                  final pickedDate = await showDatePicker(
+                      context: context,
+                      initialDate: DateTime.now(),
+                      firstDate: DateTime(2001),
+                      lastDate: DateTime.now());
+                  setState(() {
+                    selectedDate = pickedDate;
+                  });
+                },
+                child: Text(
+                    'test',
+                  style: TextStyle(
+                    color: Colors.black87
+                  ),
+                ),
+                style: ElevatedButton.styleFrom(
+                  primary: Color(0xFFF5F5F5),
+                  elevation: 0.0,
+                  shape: RoundedRectangleBorder(
+                    borderRadius: BorderRadius.circular(10.0),
+                  ),
+                  padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                ),
+              ),
+            ),
+            // TextField(
+            //     onTap: () async {
+            //       final pickedDate = await showDatePicker(
+            //           context: context,
+            //           initialDate: DateTime.now(),
+            //           firstDate: DateTime(2001),
+            //           lastDate: DateTime.now());
+            //       setState(() {
+            //         selectedDate = pickedDate;
+            //       });
+            //     },
+            //     readOnly: true,
+            //     decoration: InputDecoration(
+            //         contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+            //         border: OutlineInputBorder(
+            //           borderRadius: BorderRadius.circular(10.0),
+            //           borderSide: BorderSide.none,
+            //         ),
+            //         filled: true)),
             SizedBox(height: 30.0),
             Text(
               '위치',
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
+              style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w700),
             ),
             SizedBox(height: 10.0),
             TextField(
@@ -70,7 +113,7 @@ class _WritingViewState extends State<WritingView> {
             SizedBox(height: 30.0),
             Text(
               '오늘의 일기',
-              style: TextStyle(fontSize: 20.0, fontWeight: FontWeight.w700),
+              style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w700),
             ),
             SizedBox(height: 10.0),
             TextField(
@@ -95,22 +138,18 @@ class _WritingViewState extends State<WritingView> {
                       style: TextStyle(
                           color: Colors.white,
                           fontSize: 20.0,
-                          fontWeight: FontWeight.w700
-                      ),
+                          fontWeight: FontWeight.w700),
                     ),
                     style: ElevatedButton.styleFrom(
                         primary: Color(0xFF8474F7),
                         shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(10.0)
-                        ),
-                        minimumSize: const Size.fromHeight(50)
-                    )
-                ),
+                            borderRadius: BorderRadius.circular(10.0)),
+                        minimumSize: const Size.fromHeight(53))),
               ),
             )
           ],
-        ),)
-      ,
+        ),
+      ),
     );
   }
 }
