@@ -1,3 +1,4 @@
+import 'package:eta_frontend/view/feeds_view.dart';
 import 'package:eta_frontend/view/writing_view.dart';
 import 'package:flutter/material.dart';
 
@@ -17,9 +18,9 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ETA',
-      initialRoute: '/writing',
+      initialRoute: '/feeds',
       routes: {
-        '/writing': (context) => WritingView(),
+        '/feeds': (context) => FeedsView(),
 
       },
     );
