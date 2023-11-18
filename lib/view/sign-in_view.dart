@@ -29,7 +29,8 @@ class SignInView extends StatelessWidget {
                 elevation: 1.0,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(8.0),
-                )
+                ),
+                side: BorderSide(width: 0.1)
               ),
                 child: Row(
                   mainAxisAlignment: MainAxisAlignment.spaceAround,

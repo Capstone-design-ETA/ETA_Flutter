@@ -2,14 +2,14 @@ import 'package:flutter/material.dart';
 
 enum Sex { female, male }
 
-class SignUpView extends StatefulWidget {
-  const SignUpView({super.key});
+class SignUp1View extends StatefulWidget {
+  const SignUp1View({super.key});
 
   @override
-  State<SignUpView> createState() => _SignUpViewState();
+  State<SignUp1View> createState() => _SignUp1ViewState();
 }
 
-class _SignUpViewState extends State<SignUpView> {
+class _SignUp1ViewState extends State<SignUp1View> {
   Sex? _sex = Sex.female;
 
   @override
@@ -17,7 +17,7 @@ class _SignUpViewState extends State<SignUpView> {
     return Scaffold(
       backgroundColor: Colors.white,
       body: Container(
-        padding: EdgeInsets.fromLTRB(40.0, 180.0, 40.0, 0.0),
+        padding: EdgeInsets.fromLTRB(40.0, 180.0, 40.0, 40.0),
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,
           children: [
@@ -28,13 +28,20 @@ class _SignUpViewState extends State<SignUpView> {
                 fontWeight: FontWeight.w700,
               ),
             ),
-            Text('성별'),
+            SizedBox(
+              height: 50.0,
+            ),
+            Text(
+              '성별',
+              style: TextStyle(fontSize: 16.0),
+            ),
             Column(
               children: <Widget>[
                 RadioListTile<Sex>(
                   title: const Text('여'),
                   value: Sex.female,
                   groupValue: _sex,
+                  activeColor: Color(0xFF8474F7),
                   onChanged: (Sex? value) {
                     setState(() {
                       _sex = value;
@@ -52,6 +59,26 @@ class _SignUpViewState extends State<SignUpView> {
                   },
                 ),
               ],
+            ),
+
+            Expanded(
+              child: Align(
+                alignment: Alignment.bottomCenter,
+                child: ElevatedButton(
+                    onPressed: () {},
+                    child: Text(
+                      '다음으로',
+                      style: TextStyle(
+                          color: Colors.white,
+                          fontSize: 20.0,
+                          fontWeight: FontWeight.w700),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                        primary: Color(0xFF8474F7),
+                        shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(10.0)),
+                        minimumSize: const Size.fromHeight(53))),
+              ),
             )
           ],
         ),
