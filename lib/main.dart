@@ -1,3 +1,4 @@
+import 'view/map_view.dart';
 import 'package:eta_frontend/view/feeds_view.dart';
 import 'package:eta_frontend/view/writing_view.dart';
 import 'package:eta_frontend/view/static_main_view.dart';
@@ -5,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:intl/date_symbol_data_local.dart';
 
 void main() async {
-
   await initializeDateFormatting();
   runApp(const MyApp());
 }
@@ -24,7 +24,8 @@ class _MyAppState extends State<MyApp> {
       title: 'ETA',
       initialRoute: '/',
       routes: {
-        '/': (context) => StaticMainView(),
+        '/': (context) => MapView(),
+        '/staticmain': (context) => StaticMainView(),
         '/feeds': (context) => FeedsView(),
       },
     );
