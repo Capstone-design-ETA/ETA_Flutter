@@ -1,8 +1,12 @@
-import 'package:flutter/material.dart';
-
 import 'view/map_view.dart';
+import 'package:eta_frontend/view/feeds_view.dart';
+import 'package:eta_frontend/view/writing_view.dart';
+import 'package:eta_frontend/view/static_main_view.dart';
+import 'package:flutter/material.dart';
+import 'package:intl/date_symbol_data_local.dart';
 
-void main() {
+void main() async {
+  await initializeDateFormatting();
   runApp(const MyApp());
 }
 
@@ -12,7 +16,7 @@ class MyApp extends StatefulWidget {
 }
 
 class _MyAppState extends State<MyApp> {
-  // This widget is the root of your application.
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -21,6 +25,8 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '/',
       routes: {
         '/': (context) => MapView(),
+        '/staticmain': (context) => StaticMainView(),
+        '/feeds': (context) => FeedsView(),
       },
     );
   }
