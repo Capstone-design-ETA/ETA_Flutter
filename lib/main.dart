@@ -1,3 +1,6 @@
+import 'package:eta_frontend/view/sign-in_view.dart';
+import 'package:eta_frontend/view/sign-up_view.dart';
+
 import 'view/map_view.dart';
 import 'package:eta_frontend/view/feeds_view.dart';
 import 'package:eta_frontend/view/writing_view.dart';
@@ -22,9 +25,11 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ETA',
-      initialRoute: '/',
+      initialRoute: '/sign-up',
       routes: {
         '/': (context) => MapView(),
+        '/sign-in': (context) => SignInView(),
+        '/sign-up': (context) => SignUpView(),
         '/staticmain': (context) => StaticMainView(),
         '/feeds': (context) => FeedsView(),
       },
