@@ -27,7 +27,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ETA',
-      initialRoute: '/sign-in',
+      initialRoute: '/sign-up1',
       routes: {
         '/sign-in': (context) => SignInView(),
         '/sign-up1': (context) => SignUp1View(),

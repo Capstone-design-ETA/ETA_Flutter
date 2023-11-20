@@ -8,8 +8,25 @@ class SignUp2View extends StatefulWidget {
 }
 
 class _SignUp2ViewState extends State<SignUp2View> {
-  TextEditingController _height_controller = TextEditingController();
-  TextEditingController _weight_controller = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  int userHeight = 0;
+  int userWeight = 0;
+  bool _isDisable = true;
+
+  void _tryValidation(){
+    final isValid = _formKey.currentState!.validate();
+    if(isValid){
+      _formKey.currentState!.save();
+      setState(() {
+        _isDisable = false;
+      });
+    }
+    else{
+      setState(() {
+        _isDisable = true;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -18,8 +35,10 @@ class _SignUp2ViewState extends State<SignUp2View> {
       body: GestureDetector(
         onTap: (){
           FocusScope.of(context).unfocus();
+          _tryValidation();
         },
         child: Container(
+          color: Colors.white,
           padding: EdgeInsets.fromLTRB(40.0, 180.0, 40.0, 40.0),
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
@@ -34,40 +53,68 @@ class _SignUp2ViewState extends State<SignUp2View> {
               SizedBox(
                 height: 50.0,
               ),
-              Text(
-                '키',
-                style: TextStyle(fontSize: 16.0),
-              ),
-              TextField(
-                controller: _height_controller,
-                decoration:
-                InputDecoration(
-                  suffixText: 'cm',
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                ),
-                keyboardType: TextInputType.number,
-              ),
-              SizedBox(
-                height: 20.0,
-              ),
-              Text(
-                '체중',
-                style: TextStyle(fontSize: 16.0),
-              ),
-              TextField(
-                controller: _weight_controller,
-                decoration:
-                InputDecoration(
-                  suffixText: 'kg',
-                  floatingLabelBehavior: FloatingLabelBehavior.always,
-                ),
-                keyboardType: TextInputType.number,
+              Form(
+                key: _formKey,
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Text(
+                        '키',
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                      TextFormField(
+                        key: ValueKey(1),
+                        validator: (value){
+                          if(value!.isEmpty) {
+                            return '키를 입력해주세요!';
+                          }
+                          return null;
+                        },
+                        onSaved: (value){
+                          userHeight = int.parse(value!);
+                        },
+                        decoration:
+                        InputDecoration(
+                          suffixText: 'cm',
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                        ),
+                        keyboardType: TextInputType.number,
+                      ),
+                      SizedBox(
+                        height: 20.0,
+                      ),
+                      Text(
+                        '체중',
+                        style: TextStyle(fontSize: 16.0),
+                      ),
+                      TextFormField(
+                        key: ValueKey(2),
+                        validator: (value){
+                          if(value!.isEmpty) {
+                            return '체중을 입력해주세요!';
+                          }
+                          return null;
+                        },
+                        onSaved: (value){
+                          userWeight = int.parse(value!);
+                        },
+                        decoration:
+                        InputDecoration(
+                          suffixText: 'kg',
+                          floatingLabelBehavior: FloatingLabelBehavior.always,
+                        ),
+                        keyboardType: TextInputType.number,
+                      ),
+                    ],
+                  )
               ),
               Expanded(
                 child: Align(
                   alignment: Alignment.bottomCenter,
                   child: ElevatedButton(
-                      onPressed: () {},
+                      onPressed: _isDisable? null : () {
+                        Navigator.pushNamed(context, '/sign-up3');
+                      },
                       child: Text(
                         '다음으로',
                         style: TextStyle(

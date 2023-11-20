@@ -9,6 +9,13 @@ class SignUp3View extends StatefulWidget {
 
 class _SignUp3ViewState extends State<SignUp3View> {
 
+  var levelList = [
+    '적게 걸을래요',
+    '적당히 걸을래요',
+    '많이 걸을래요'
+  ];
+  int _selectedLevel = 1;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -28,89 +35,46 @@ class _SignUp3ViewState extends State<SignUp3View> {
             SizedBox(
               height: 50.0,
             ),
-            Column(
-              children: [
-                ElevatedButton(
-                    onPressed: (){},
-                    child: Align(
-                      alignment: Alignment.centerLeft,
-                      child: Text(
-                          '적게 걸을래요',
+            Container(
+              height: 500,
+              // color: Colors.orange,
+              child: ListView.builder(
+                itemCount: levelList.length,
+                itemBuilder: (context, index) {
+                  return Padding(
+                    padding: const EdgeInsets.only(top: 30),
+                    child: ListTile(
+                      title: Text(levelList[index],
+                        textAlign: TextAlign.center,
                         style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black
+                          fontSize: 18,
+                          fontWeight: FontWeight.w500,
                         ),
                       ),
-                    ),
-                  style: ElevatedButton.styleFrom(
-                    padding: EdgeInsets.only(left: 30.0),
-                    primary: Color(0xFFF6F6F6),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(56.0),
-                    ),
-                    minimumSize: Size.fromHeight(52),
-                    elevation: 0.0,
-                    side: BorderSide(width: 1.5, color: Color(0xFF8474F7))
-                  ),
-                ),
-                SizedBox(height: 30.0,),
-                ElevatedButton(
-                  onPressed: (){},
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      '적당히 걸을래요',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black
-                      ),
-                    ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.only(left: 30.0),
-                      primary: Color(0xFFF6F6F6),
+                      selected: index == _selectedLevel,
+                      selectedTileColor: Color(0xFF8474F7),
+                      selectedColor: Colors.white,
+                      onTap: () {
+                        setState(() {
+                          _selectedLevel = index;
+                        });
+                      },
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(56.0),
-                      ),
-                      minimumSize: Size.fromHeight(52),
-                      elevation: 0.0,
-                      side: BorderSide(width: 1.5, color: Color(0xFF8474F7))
-                  ),
-                ),
-                SizedBox(height: 30.0,),
-                ElevatedButton(
-                  onPressed: (){},
-                  child: Align(
-                    alignment: Alignment.centerLeft,
-                    child: Text(
-                      '많이 걸을래요',
-                      style: TextStyle(
-                          fontSize: 16,
-                          fontWeight: FontWeight.w700,
-                          color: Colors.black
+                        side: BorderSide(width: 3, color: Color(0xFF8474F7))
                       ),
                     ),
-                  ),
-                  style: ElevatedButton.styleFrom(
-                      padding: EdgeInsets.only(left: 30.0),
-                      primary: Color(0xFFF6F6F6),
-                      shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(56.0),
-                      ),
-                      minimumSize: Size.fromHeight(52),
-                      elevation: 0.0,
-                      side: BorderSide(width: 1.5, color: Color(0xFF8474F7))
-                  ),
-                ),
-              ],
+                  );
+                },
+              ),
             ),
             Expanded(
               child: Align(
                 alignment: Alignment.bottomCenter,
                 child: ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pushNamed(context, '/map');
+                    },
                     child: Text(
                       '이제 시작해볼까요?',
                       style: TextStyle(
