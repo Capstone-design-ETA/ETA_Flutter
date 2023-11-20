@@ -34,7 +34,7 @@ class _MyAppState extends State<MyApp> {
         '/sign-up2': (context) => SignUp2View(),
         '/sign-up3': (context) => SignUp3View(),
         '/map': (context) => MapView(),
-        '/staticmain': (context) => StaticMainView(),
+        '/statics': (context) => StaticMainView(),
         '/feeds': (context) => FeedsView(),
       },
     );
