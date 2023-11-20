@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:kakaomap_webview/kakaomap_webview.dart';
 
-const String kakaoMapKey = 'd9b65408d0c444332a391fadca76f792';
+const String kakaoMapKey = '';
 
 class MapView extends StatefulWidget {
   const MapView({super.key});
@@ -125,6 +125,9 @@ class _MapViewState extends State<MapView> {
           ),
           BottomNavigationBarItem(
             icon: InkWell(
+              onTap: () {
+                Navigator.pushNamed(context, '/statics');
+              },
               child: Column(
                 children: [
                   Icon(
