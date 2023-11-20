@@ -2,7 +2,7 @@ import 'package:eta_frontend/view/sign-in_view.dart';
 import 'package:eta_frontend/view/sign-up1_view.dart';
 import 'package:eta_frontend/view/sign-up2_view.dart';
 import 'package:eta_frontend/view/sign-up3_view.dart';
-
+import 'package:eta_frontend/view/static_day_view.dart';
 import 'view/map_view.dart';
 import 'package:eta_frontend/view/feeds_view.dart';
 import 'package:eta_frontend/view/writing_view.dart';
@@ -34,7 +34,8 @@ class _MyAppState extends State<MyApp> {
         '/sign-up2': (context) => SignUp2View(),
         '/sign-up3': (context) => SignUp3View(),
         '/map': (context) => MapView(),
-        '/staticmain': (context) => StaticMainView(),
+        '/statics': (context) => StaticMainView(),
+        '/statics/day': (context) => StaticDayView(),
         '/feeds': (context) => FeedsView(),
       },
     );
