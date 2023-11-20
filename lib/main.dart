@@ -24,7 +24,8 @@ class _MyAppState extends State<MyApp> {
       title: 'ETA',
       initialRoute: '/',
       routes: {
-        '/statics': (context) => StaticMainView(),
+        '/': (context) => StaticMainView(),
+        // '/statics': (context) => StaticMainView(),
         '/statics/day': (context) => StaticDayView(),
       },
     );

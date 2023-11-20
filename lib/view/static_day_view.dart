@@ -1,5 +1,7 @@
 
+import 'package:eta_frontend/view/static_main_view.dart';
 import 'package:flutter/material.dart';
+
 
 class StaticDayView extends StatefulWidget {
   const StaticDayView({super.key});
@@ -12,6 +14,7 @@ class _StaticDayViewState extends State<StaticDayView> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       home: Scaffold(
         appBar: AppBar(
           leading: IconButton(
@@ -35,7 +38,7 @@ class _StaticDayViewState extends State<StaticDayView> {
                     crossAxisAlignment: CrossAxisAlignment.stretch,
                     children: [
                       Text(
-                        '2023년 1월 15일',
+                        '2023년 11월 15일',
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold,
@@ -45,7 +48,7 @@ class _StaticDayViewState extends State<StaticDayView> {
                       Text('나의 발자취'),
                       Text('걸음수: 10,000 보', style: TextStyle(color: Colors.green)),
                       Text('칼로리 소모: 500 Kcal', style: TextStyle(color: Colors.red)),
-                      Text('통화 기록: 30분', style: TextStyle(color: Colors.blue)),
+                      Text('통화 기록: \n 오후 2:23 김나현 \n 오후 4:19 김나현', style: TextStyle(color: Colors.blue)),
                     ],
                   ),
                 ),
@@ -73,6 +76,95 @@ class _StaticDayViewState extends State<StaticDayView> {
               ),
             ],
           ),
+        ),
+        bottomNavigationBar: BottomNavigationBar(
+          type: BottomNavigationBarType.fixed,
+          items: <BottomNavigationBarItem>[
+            BottomNavigationBarItem(
+              icon: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => StaticMainView(),
+                    ),
+                  );
+                },
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.location_on,
+                      color: Color.fromRGBO(132,116,247,100),
+                    ),
+                  ],
+                ),
+              ),
+              label: '지도',
+            ),
+            BottomNavigationBarItem(
+              icon: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => StaticMainView(),
+                    ),
+                  );
+                },
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.edit_note,
+                      color: Color.fromRGBO(132,116,247,100),
+                    ),
+                  ],
+                ),
+              ),
+              label: '기록',
+            ),
+            BottomNavigationBarItem(
+              icon: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => StaticMainView(),
+                    ),
+                  );
+                },
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.analytics,
+                      color: Color.fromRGBO(132,116,247,100),
+                    ),
+                  ],
+                ),
+              ),
+              label: '통계',
+            ),
+            BottomNavigationBarItem(
+              icon: InkWell(
+                onTap: () {
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (context) => StaticMainView(),
+                    ),
+                  );
+                },
+                child: Column(
+                  children: [
+                    Icon(
+                      Icons.settings,
+                      color: Color.fromRGBO(132,116,247,100),
+                    ),
+                  ],
+                ),
+              ),
+              label: '설정',
+            ),
+          ],
         ),
       ),
     );
