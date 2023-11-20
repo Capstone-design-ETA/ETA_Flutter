@@ -1,3 +1,4 @@
+import 'package:eta_frontend/view/static_day_view.dart';
 import 'view/map_view.dart';
 import 'package:eta_frontend/view/feeds_view.dart';
 import 'package:eta_frontend/view/writing_view.dart';
@@ -25,7 +26,8 @@ class _MyAppState extends State<MyApp> {
       initialRoute: '/',
       routes: {
         '/': (context) => MapView(),
-        '/staticmain': (context) => StaticMainView(),
+        '/statics': (context) => StaticMainView(),
+        '/statics/day': (context) => StaticDayView(),
         '/feeds': (context) => FeedsView(),
       },
     );
