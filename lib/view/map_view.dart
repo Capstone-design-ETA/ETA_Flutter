@@ -126,7 +126,7 @@ class _MapViewState extends State<MapView> {
           BottomNavigationBarItem(
             icon: InkWell(
               onTap: () {
-                Navigator.pushNamed(context, '/staticmain');
+                Navigator.pushNamed(context, '/statics');
               },
               child: Column(
                 children: [
