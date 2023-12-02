@@ -44,6 +44,9 @@ dependencies:
   get: ^4.6.6
   percent_indicator: ^4.2.3
   google_sign_in: ^6.1.6
+  kpostal: ^0.5.1
+  path_provider: ^2.1.1
+  native_exif: ^0.4.1
 
 dev_dependencies:
   flutter_test:

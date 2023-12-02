@@ -2,6 +2,8 @@ import 'dart:io';
 
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:intl/intl.dart';
+import 'package:kpostal/kpostal.dart';
 
 class WritingView extends StatefulWidget {
   const WritingView({super.key});
@@ -30,6 +32,13 @@ class _WritingViewState extends State<WritingView> {
     }
   }
 
+  String postCode = '';
+  String address = '';
+  String latitude = '';
+  String longitude = '';
+  String kakaoLatitude = '';
+  String kakaoLongitude = '';
+
 
   @override
   Widget build(BuildContext context) {
@@ -47,7 +56,6 @@ class _WritingViewState extends State<WritingView> {
             onPressed: () {},
             icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black)),
       ),
-      resizeToAvoidBottomInset : false,
       body: GestureDetector(
         onTap: (){
           FocusScope.of(context).unfocus();
@@ -79,7 +87,8 @@ class _WritingViewState extends State<WritingView> {
                       });
                     },
                     child: Text(
-                        'selectedDate',
+                      selectedDate == null ? '' :
+                      DateFormat('yyyy-MM-dd').format(selectedDate!),
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         color: Colors.black87,
@@ -101,14 +110,44 @@ class _WritingViewState extends State<WritingView> {
                   style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w700),
                 ),
                 SizedBox(height: 10.0),
-                TextField(
-                    decoration: InputDecoration(
-                        contentPadding: EdgeInsets.fromLTRB(20, 20, 20, 20),
-                        border: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10.0),
-                          borderSide: BorderSide.none,
+                Container(
+                  width: double.infinity,
+                  child: ElevatedButton(
+                    onPressed: () async {
+                      await Navigator.push(context, MaterialPageRoute(
+                        builder: (_) => KpostalView(
+                          callback: (Kpostal result) {
+                            print(result.sigungu);
+                            setState(() {
+                              this.postCode = result.postCode;
+                              this.address = result.address;
+                              this.latitude = result.latitude.toString();
+                              this.longitude = result.longitude.toString();
+                              this.kakaoLatitude = result.kakaoLatitude.toString();
+                              this.kakaoLongitude =
+                                  result.kakaoLongitude.toString();
+                            });
+                          },
                         ),
-                        filled: true)),
+                      ));
+                    },
+                    child: Text(
+                      this.address,
+                      textAlign: TextAlign.start,
+                      style: TextStyle(
+                        color: Colors.black87,
+                      ),
+                    ),
+                    style: ElevatedButton.styleFrom(
+                      primary: Color(0xFFF5F5F5),
+                      elevation: 0.0,
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(10.0),
+                      ),
+                      padding: EdgeInsets.fromLTRB(20, 20, 20, 20),
+                    ),
+                  ),
+                ),
                 SizedBox(height: 30.0),
                 Text(
                   '오늘의 일기',
@@ -120,14 +159,14 @@ class _WritingViewState extends State<WritingView> {
                   keyboardType: TextInputType.text,
                   cursorColor: Colors.black87,
                   decoration: InputDecoration(
-                      contentPadding: EdgeInsets.symmetric(vertical: 80),
+                      contentPadding: EdgeInsets.all(20.0),
                       border: OutlineInputBorder(
                         borderRadius: BorderRadius.circular(10.0),
                         borderSide: BorderSide.none,
                       ),
                       filled: true),
                 ),
-                SizedBox(height: 20.0,),
+                SizedBox(height: 40.0,),
                 ElevatedButton(
                     onPressed: () {},
                     child: Text(
