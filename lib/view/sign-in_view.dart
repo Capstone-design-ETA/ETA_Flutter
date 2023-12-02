@@ -1,7 +1,16 @@
 import 'package:flutter/material.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SignInView extends StatelessWidget {
   const SignInView({super.key});
+
+  void signInWithGoogle(context) async {
+    final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
+
+    if (googleUser != null) {
+      Navigator.pushNamed(context, '/nickname');
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -22,7 +31,9 @@ class SignInView extends StatelessWidget {
             ),
             SizedBox(height: 100.0,),
             ElevatedButton(
-                onPressed: (){},
+              onPressed: (){
+                signInWithGoogle(context);
+              },
               style: ElevatedButton.styleFrom(
                 fixedSize: Size.fromHeight(53.0),
                 primary: Color(0xFFFFFFFF),
