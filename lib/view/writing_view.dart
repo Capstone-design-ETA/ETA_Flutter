@@ -1,9 +1,16 @@
 import 'dart:io';
-
+import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
+import 'package:path/path.dart' as p;
+import 'package:path_provider/path_provider.dart';
+
+import 'package:native_exif/native_exif.dart';
+import 'package:http/http.dart' as http;
+
 import 'package:kpostal/kpostal.dart';
+
 
 class WritingView extends StatefulWidget {
   const WritingView({super.key});
@@ -13,24 +20,93 @@ class WritingView extends StatefulWidget {
 }
 
 class _WritingViewState extends State<WritingView> {
+  String gpsApiKey = '';
+
   DateTime? selectedDate;
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
 
-  XFile? _image; //이미지를 담을 변수 선언
-  final ImagePicker picker = ImagePicker(); //ImagePicker 초기화
 
-  //이미지를 가져오는 함수
-  Future getImage(ImageSource imageSource) async {
-    //pickedFile에 ImagePicker로 가져온 이미지가 담긴다.
-    final XFile? pickedFile = await picker.pickImage(source: imageSource);
-    if (pickedFile != null) {
+  final picker = ImagePicker();
 
-      setState(() {
-        _image = XFile(pickedFile.path); //가져온 이미지를 _image에 저장
-      });
-    }
+  XFile? pickedFile;
+  Exif? exif;
+  Map<String, Object>? attributes;
+  DateTime? shootingDate;
+  ExifLatLong? coordinates;
+
+  @override
+  void initState() {
+    super.initState();
   }
+
+  Future<void> showError(Object e) async {
+    debugPrintStack(label: e.toString(), stackTrace: e is Error ? e.stackTrace : null);
+
+    return showDialog<void>(
+      context: context,
+      builder: (context) {
+        return AlertDialog(
+          title: const Text('Error'),
+          content: SingleChildScrollView(
+            child: ListBody(
+              children: [
+                Text(e.toString()),
+              ],
+            ),
+          ),
+          actions: <Widget>[
+            TextButton(
+              child: const Text('OK'),
+              onPressed: () {
+                Navigator.of(context).pop();
+              },
+            ),
+          ],
+        );
+      },
+    );
+  }
+
+  Future getImage() async {
+    pickedFile = await picker.pickImage(source: ImageSource.gallery);
+    if (pickedFile == null) {
+      return;
+    }
+
+    exif = await Exif.fromPath(pickedFile!.path);
+    attributes = await exif!.getAttributes();
+    shootingDate = await exif!.getOriginalDate();
+    coordinates = await exif!.getLatLong();
+
+    print(attributes);
+    print(shootingDate);
+    print(coordinates);
+
+    final gpsUrl =
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${coordinates!.latitude},${coordinates!.longitude}&key=$gpsApiKey&language=ko';
+    final responseGps = await http.get(Uri.parse(gpsUrl));
+    final formatted_address = jsonDecode(responseGps.body)['results'][0]['formatted_address'];
+    ETALocation = jsonDecode(responseGps.body)['results'][0]['address_components'][2]['long_name'];
+    print(ETALocation);
+
+
+    setState(() {
+      selectedDate = shootingDate;
+      address = formatted_address;
+    });
+  }
+
+  Future closeImage() async {
+    await exif?.close();
+    shootingDate = null;
+    attributes = {};
+    exif = null;
+    coordinates = null;
+
+    setState(() {});
+  }
+
 
   String postCode = '';
   String address = '';
@@ -38,6 +114,7 @@ class _WritingViewState extends State<WritingView> {
   String longitude = '';
   String kakaoLatitude = '';
   String kakaoLongitude = '';
+  String ETALocation = '';
 
 
   @override
@@ -57,7 +134,7 @@ class _WritingViewState extends State<WritingView> {
             icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black)),
       ),
       body: GestureDetector(
-        onTap: (){
+        onTap: () {
           FocusScope.of(context).unfocus();
         },
         child: SingleChildScrollView(
@@ -67,7 +144,6 @@ class _WritingViewState extends State<WritingView> {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 _buildPhotoArea(),
-
                 Text(
                   '날짜',
                   style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w700),
@@ -115,20 +191,24 @@ class _WritingViewState extends State<WritingView> {
                   child: ElevatedButton(
                     onPressed: () async {
                       await Navigator.push(context, MaterialPageRoute(
-                        builder: (_) => KpostalView(
-                          callback: (Kpostal result) {
-                            print(result.sigungu);
-                            setState(() {
-                              this.postCode = result.postCode;
-                              this.address = result.address;
-                              this.latitude = result.latitude.toString();
-                              this.longitude = result.longitude.toString();
-                              this.kakaoLatitude = result.kakaoLatitude.toString();
-                              this.kakaoLongitude =
-                                  result.kakaoLongitude.toString();
-                            });
-                          },
-                        ),
+                        builder: (_) =>
+                            KpostalView(
+                              callback: (Kpostal result) {
+                                setState(() {
+                                  this.postCode = result.postCode;
+                                  this.address = result.address;
+                                  this.latitude = result.latitude.toString();
+                                  this.longitude = result.longitude.toString();
+                                  this.kakaoLatitude =
+                                      result.kakaoLatitude.toString();
+                                  this.kakaoLongitude =
+                                      result.kakaoLongitude.toString();
+                                  this.ETALocation =
+                                      result.sigungu.toString();
+                                });
+                                print(ETALocation);
+                              },
+                            ),
                       ));
                     },
                     child: Text(
@@ -188,25 +268,27 @@ class _WritingViewState extends State<WritingView> {
       ),
     );
   }
+
+
   Widget _buildPhotoArea() {
-    return _image != null
-        ? Container(
+    return pickedFile == null
+          ? Container(
+          width: 100,
+          height: 100,
+            child: IconButton(
+              onPressed: () {
+                getImage();
+              },
+              icon: Icon(Icons.camera_alt),
+              color: Color(0xFF8474F7),
+            // If atleast 1 images is selected
+            )
+          )
+          : Container(
       width: 100,
       height: 100,
-      child: Image.file(File(_image!.path)), //가져온 이미지를 화면에 띄워주는 코드
-    )
-        : Container(
-      width: 100,
-      height: 100,
-      child: IconButton(
-        onPressed: (){
-          getImage(ImageSource.camera);
-        },
-        icon: Icon(Icons.camera_alt),
-        color: Color(0xFF8474F7),
-        // size: 30,
-      ),
+      child: Image.file(File(pickedFile!.path)),
+      
     );
   }
-
 }
