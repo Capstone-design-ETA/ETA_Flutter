@@ -1,6 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:intl/intl.dart';
 import 'package:path/path.dart' as p;
@@ -20,7 +21,7 @@ class WritingView extends StatefulWidget {
 }
 
 class _WritingViewState extends State<WritingView> {
-  String gpsApiKey = 'AIzaSyCduGt83ykiAOLOru3gKKMvEh4_9l6uT0A';
+  String gpsApiKey = dotenv.env["google_map_key"]!;
 
   DateTime? selectedDate;
   TextEditingController titleController = TextEditingController();
@@ -250,7 +251,9 @@ class _WritingViewState extends State<WritingView> {
                 ),
                 SizedBox(height: 40.0,),
                 ElevatedButton(
-                    onPressed: () {},
+                    onPressed: () {
+                      Navigator.pop(context);
+                    },
                     child: Text(
                       '완료',
                       style: TextStyle(

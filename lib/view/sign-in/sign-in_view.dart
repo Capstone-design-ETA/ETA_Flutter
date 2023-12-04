@@ -8,7 +8,7 @@ class SignInView extends StatelessWidget {
     final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
 
     if (googleUser != null) {
-      Navigator.pushNamed(context, '/nickname');
+      Navigator.pushNamed(context, '/sign-up');
     }
   }
 

@@ -2,9 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:percent_indicator/linear_percent_indicator.dart';
 
-import '../controller/flow_controller.dart';
-import '../controller/sign_up_controller.dart';
-import '../model/user.dart';
+import '../../controller/flow_controller.dart';
+import '../../controller/sign_up_controller.dart';
 
 class SignUp2View extends StatefulWidget {
   const SignUp2View({super.key});

@@ -1,9 +1,9 @@
-import 'package:eta_frontend/view/sign-up1_view.dart';
-import 'package:eta_frontend/view/sign-up2_view.dart';
-import 'package:eta_frontend/view/sign-up3_view.dart';
+import 'package:eta_frontend/view/sign-in/sign-up1_view.dart';
+import 'package:eta_frontend/view/sign-in/sign-up2_view.dart';
+import 'package:eta_frontend/view/sign-in/sign-up3_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import '../controller/flow_controller.dart';
+import '../../controller/flow_controller.dart';
 
 
 class SignupBodyView extends StatefulWidget {
@@ -31,7 +31,6 @@ class _SignupBodyViewState extends State<SignupBodyView> {
         backgroundColor: Colors.white,
         body: GetBuilder<FlowController>(
           builder: (context) {
-            // Menampilkan tampilan sesuai dengan alur saat ini
             if (flowController.currentFlow == 1) {
               return const SignUp1View();
             } else if (flowController.currentFlow == 2) {
