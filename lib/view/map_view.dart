@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:kakaomap_webview/kakaomap_webview.dart';
 
 const String kakaoMapKey = '';
@@ -11,6 +12,8 @@ class MapView extends StatefulWidget {
 }
 
 class _MapViewState extends State<MapView> {
+  String kakaoMapKey = dotenv.env["kakao_app_key"]!;
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
