@@ -20,7 +20,7 @@ class WritingView extends StatefulWidget {
 }
 
 class _WritingViewState extends State<WritingView> {
-  String gpsApiKey = '';
+  String gpsApiKey = 'AIzaSyCduGt83ykiAOLOru3gKKMvEh4_9l6uT0A';
 
   DateTime? selectedDate;
   TextEditingController titleController = TextEditingController();
@@ -29,7 +29,7 @@ class _WritingViewState extends State<WritingView> {
 
   final picker = ImagePicker();
 
-  XFile? pickedFile;
+  List<XFile?> _images = [];
   Exif? exif;
   Map<String, Object>? attributes;
   DateTime? shootingDate;
@@ -41,7 +41,8 @@ class _WritingViewState extends State<WritingView> {
   }
 
   Future<void> showError(Object e) async {
-    debugPrintStack(label: e.toString(), stackTrace: e is Error ? e.stackTrace : null);
+    debugPrintStack(
+        label: e.toString(), stackTrace: e is Error ? e.stackTrace : null);
 
     return showDialog<void>(
       context: context,
@@ -68,13 +69,18 @@ class _WritingViewState extends State<WritingView> {
     );
   }
 
-  Future getImage() async {
-    pickedFile = await picker.pickImage(source: ImageSource.gallery);
-    if (pickedFile == null) {
+  Future getImages() async {
+    List<XFile>? pickedFiles = await picker.pickMultiImage();
+    if (pickedFiles == null) {
       return;
     }
+    setState(() {
+      _images.addAll(pickedFiles);
+    });
+    print(pickedFiles.length);
 
-    exif = await Exif.fromPath(pickedFile!.path);
+    
+    exif = await Exif.fromPath(pickedFiles[0]!.path);
     attributes = await exif!.getAttributes();
     shootingDate = await exif!.getOriginalDate();
     coordinates = await exif!.getLatLong();
@@ -84,10 +90,13 @@ class _WritingViewState extends State<WritingView> {
     print(coordinates);
 
     final gpsUrl =
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${coordinates!.latitude},${coordinates!.longitude}&key=$gpsApiKey&language=ko';
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${coordinates!
+        .latitude},${coordinates!.longitude}&key=$gpsApiKey&language=ko';
     final responseGps = await http.get(Uri.parse(gpsUrl));
-    final formatted_address = jsonDecode(responseGps.body)['results'][0]['formatted_address'];
-    ETALocation = jsonDecode(responseGps.body)['results'][0]['address_components'][2]['long_name'];
+    final formatted_address = jsonDecode(
+        responseGps.body)['results'][0]['formatted_address'];
+    ETALocation = jsonDecode(
+        responseGps.body)['results'][0]['address_components'][3]['long_name'];
     print(ETALocation);
 
 
@@ -95,16 +104,6 @@ class _WritingViewState extends State<WritingView> {
       selectedDate = shootingDate;
       address = formatted_address;
     });
-  }
-
-  Future closeImage() async {
-    await exif?.close();
-    shootingDate = null;
-    attributes = {};
-    exif = null;
-    coordinates = null;
-
-    setState(() {});
   }
 
 
@@ -143,7 +142,10 @@ class _WritingViewState extends State<WritingView> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                _buildPhotoArea(),
+                SizedBox(
+                  width: MediaQuery.of(context).size.width - 50,
+                  child: _buildPhotoArea(),
+                ),
                 Text(
                   '날짜',
                   style: TextStyle(fontSize: 17.0, fontWeight: FontWeight.w700),
@@ -271,24 +273,35 @@ class _WritingViewState extends State<WritingView> {
 
 
   Widget _buildPhotoArea() {
-    return pickedFile == null
-          ? Container(
-          width: 100,
+    return _images.isNotEmpty
+        ? SizedBox(
           height: 100,
-            child: IconButton(
-              onPressed: () {
-                getImage();
-              },
-              icon: Icon(Icons.camera_alt),
-              color: Color(0xFF8474F7),
-            // If atleast 1 images is selected
-            )
-          )
-          : Container(
-      width: 100,
-      height: 100,
-      child: Image.file(File(pickedFile!.path)),
-      
+          child: ListView.builder(
+            scrollDirection: Axis.horizontal,
+            shrinkWrap: true,
+            itemCount: _images.length,
+            itemBuilder: (context, index) {
+              return Container(
+                margin: EdgeInsets.only(right: 8.0),
+                width: 100,
+                height: 100,
+                child: Image.file(File(_images[index]!.path),
+                  fit: BoxFit.cover,
+                ),
+              );
+            }
+          ),
+        )
+        : Container(
+        width: 100,
+        height: 100,
+        child: IconButton(
+          onPressed: () {
+            getImages();
+          },
+          icon: Icon(Icons.camera_alt),
+          color: Color(0xFF8474F7),
+        )
     );
   }
 }
