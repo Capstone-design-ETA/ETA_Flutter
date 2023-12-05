@@ -1,4 +1,4 @@
-import 'package:eta_frontend/view/map_view.dart';
+import 'package:eta_frontend/view/map/map_view.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:get/get.dart';
 
@@ -68,7 +68,7 @@ class SignUpController extends GetxController {
 //       'level': level,
 //     });
 
-    await Get.offAll(const MapView());
+    await Get.offAll(MapView());
   }
 
 
