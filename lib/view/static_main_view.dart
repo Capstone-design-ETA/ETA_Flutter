@@ -121,12 +121,7 @@ class _StaticMainViewState extends State<StaticMainView> {
             BottomNavigationBarItem(
               icon: InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => StaticMainView(),
-                    ),
-                  );
+                  Navigator.pushNamed(context, '/map');
                 },
                 child: Column(
                   children: [
