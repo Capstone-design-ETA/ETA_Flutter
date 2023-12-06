@@ -1,6 +1,8 @@
 import 'package:eta_frontend/view/sign-in/sign-in_view.dart';
 import 'package:eta_frontend/view/sign-in/sign-up_body_view.dart';
 import 'package:eta_frontend/view/static_day_view.dart';
+import 'model/event.dart';
+import 'view/map_view.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'view/map/map_view.dart';
@@ -27,11 +29,11 @@ void main() async {
 
 class MyApp extends StatefulWidget {
   const MyApp({super.key});
+
   State<MyApp> createState() => _MyAppState();
 }
 
 class _MyAppState extends State<MyApp> {
-
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(
@@ -43,7 +45,13 @@ class _MyAppState extends State<MyApp> {
         '/sign-up': (context) => SignupBodyView(),
         '/map': (context) => MapView(),
         '/statics': (context) => StaticMainView(),
-        '/statics/day': (context) => StaticDayView(),
+        '/statics/day': (context) {
+          final arguments = ModalRoute.of(context)!.settings.arguments
+              as Map<DateTime, dynamic>;
+          final date = arguments['date'] as DateTime;
+          final event = arguments['event'] as Event;
+          return StaticDayView(date: date, event: event);
+        },
         '/feeds': (context) => FeedsView(),
         '/writing': (context) => WritingView(),
       },
