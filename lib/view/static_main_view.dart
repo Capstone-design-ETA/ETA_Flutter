@@ -1,7 +1,12 @@
+import 'dart:collection';
+
+import 'package:eta_frontend/permission.dart';
 import 'package:eta_frontend/view/static_day_view.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:math';
+
+import '../model/event.dart';
 
 class StaticMainView extends StatefulWidget {
   const StaticMainView({super.key});
@@ -25,6 +30,7 @@ class _StaticMainViewState extends State<StaticMainView> {
     Colors.purple,
   ];
 
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -47,63 +53,67 @@ class _StaticMainViewState extends State<StaticMainView> {
           centerTitle: true,
           backgroundColor: Colors.white,
         ),
-        body: Column(
-          children: [
-            CalendarScreen(),
-            SizedBox(height: 40),
-            ElevatedButton(
-              onPressed: () {
-                _showPopup(context);
-              },
-              style: ElevatedButton.styleFrom(
-                  fixedSize: Size(138, 60),
-                  primary: Color.fromRGBO(88, 70, 245, 70),
-                  onPrimary: Colors.white,
-                  elevation: 4,
-                  padding: EdgeInsets.all(16),
-                  shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(14.5),
-                  )),
-              child: Text(
-                '이달의 통계',
-                style: TextStyle(
-                  fontSize: 18,
-                ),
-              ),
-            ),
-            SizedBox(height: 40),
-            Row(
-              mainAxisAlignment: MainAxisAlignment.end,
-              children: [
-                ElevatedButton(
-                  onPressed: () {
-                    Navigator.push(
-                      context,
-                      MaterialPageRoute(
-                        builder: (context) => StaticDayView(),
-                      ),
-                    );
-                  },
-                  style: ElevatedButton.styleFrom(
-                      fixedSize: Size(138, 60),
-                      primary: Color.fromRGBO(88, 70, 245, 70),
-                      onPrimary: Colors.white,
-                      elevation: 4,
-                      padding: EdgeInsets.all(8),
-                      shape: CircleBorder(),),
-                      /*shape: RoundedRectangleBorder(
-                        borderRadius: BorderRadius.circular(14.5),
-                      ))*/
-                  child: Text(
-                    '+',
-                    style: TextStyle(
-                      fontSize: 18,
-                    ),
+        body: SingleChildScrollView(
+          child : Column(
+            children: [
+              CalendarScreen(),
+              SizedBox(height: 40),
+              ElevatedButton(
+                onPressed: () {
+                  _showPopup(context);
+                },
+                style: ElevatedButton.styleFrom(
+                    fixedSize: Size(138, 60),
+                    primary: Color.fromRGBO(88, 70, 245, 70),
+                    onPrimary: Colors.white,
+                    elevation: 4,
+                    padding: EdgeInsets.all(16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(14.5),
+                    )),
+                child: Text(
+                  '이달의 통계',
+                  style: TextStyle(
+                    fontSize: 18,
                   ),
                 ),
-              ],
-            )
-          ],
+              ),
+              SizedBox(height: 40),
+              PermissionRequestButton(),
+              // Row(
+              //   mainAxisAlignment: MainAxisAlignment.end,
+              //   children: [
+                  // // ElevatedButton(
+                  // //   onPressed: () {
+                  // //     Navigator.push(
+                  // //       context,
+                  // //       // MaterialPageRoute(
+                  // //         // builder: (context) => StaticDayView(),
+                  // //       ),
+                  // //     );
+                  // //   },
+                  // //   style: ElevatedButton.styleFrom(
+                  // //     fixedSize: Size(138, 60),
+                  // //     primary: Color.fromRGBO(88, 70, 245, 70),
+                  // //     onPrimary: Colors.white,
+                  // //     elevation: 4,
+                  // //     padding: EdgeInsets.all(8),
+                  // //     shape: CircleBorder(),
+                  // //   ),
+                  //   /*shape: RoundedRectangleBorder(
+                  //         borderRadius: BorderRadius.circular(14.5),
+                  //       ))*/
+                  //   child: Text(
+                  //     '+',
+                  //     style: TextStyle(
+                  //       fontSize: 18,
+                  //     ),
+                  //   ),
+                  // ),
+                //],
+              //)
+            ],
+          ),
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
@@ -203,18 +213,21 @@ class _StaticMainViewState extends State<StaticMainView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('이달의 통계'),
+          title: Text('이달의 통계', style: TextStyle(
+            color: Color.fromRGBO(132, 116, 247, 100),
+            fontWeight: FontWeight.bold
+          ),),
           content: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
-              child : Column(
+              child: Column(
                 crossAxisAlignment: CrossAxisAlignment.stretch,
                 children: [
                   Card(
                     child: Padding(
-                      padding: const EdgeInsets.all(16.0),
+                      padding: const EdgeInsets.all(10.0),
                       child: SingleChildScrollView(
-                        child : Column(
+                        child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
@@ -229,18 +242,21 @@ class _StaticMainViewState extends State<StaticMainView> {
                               children: [
                                 Icon(Icons.hiking),
                                 Expanded(
-                                    child: Text('2023년 11월은 평균 10,000걸음을 걸었군요!',
-                                      style: TextStyle(color: Colors.black),
-                                    ),),
+                                  child: Text(
+                                    '2023년 11월은 평균 10,000걸음을 걸었군요!',
+                                    style: TextStyle(color: Colors.black),
+                                  ),
+                                ),
                               ],
                             ),
                             Row(
                               children: [
                                 Icon(Icons.location_on),
                                 Expanded(
-                                    child: Text('2023년 11월은 총 18군데를 방문하였어요!',
-                                      style: TextStyle(color: Colors.green),
-                                    ),
+                                  child: Text(
+                                    '2023년 11월은 총 18군데를 방문하였어요!',
+                                    style: TextStyle(color: Colors.green),
+                                  ),
                                 ),
                               ],
                             ),
@@ -248,9 +264,10 @@ class _StaticMainViewState extends State<StaticMainView> {
                               children: [
                                 Icon(Icons.call),
                                 Expanded(
-                                    child: Text('2023년 11월은 엄마, 아빠, 학교와 가장 전화를 많이 하였어요!',
-                                      style: TextStyle(color: Colors.red),
-                                    ),
+                                  child: Text(
+                                    '2023년 11월은 엄마, 아빠, 학교와 가장 전화를 많이 하였어요!',
+                                    style: TextStyle(color: Colors.red),
+                                  ),
                                 ),
                               ],
                             ),
@@ -299,7 +316,9 @@ class _StaticMainViewState extends State<StaticMainView> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('X'),
+              child: Text('X', style: TextStyle(
+                color: Color.fromRGBO(132, 116, 247, 100),
+              ),),
             ),
           ],
         );
@@ -319,9 +338,23 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  Map<DateTime, List> _events = {
-    DateTime(2023, 11, 8): ['Event A', 'Event B'],
-    DateTime(2023, 11, 12): ['Event C'],
+  //예시 event
+  // final _events = LinkedHashMap(
+  //   equals: isSameDay,
+  // )..addAll({
+  //   DateTime(2023, 12, 1) : Event(date: DateTime(2023, 12, 1)),
+  //   DateTime(2023, 12, 2) : Event(date: DateTime(2023, 12, 2)),
+  //   DateTime(2023, 12, 3) : Event(date: DateTime(2023, 12, 3)),
+  //   DateTime(2023, 12, 4) : Event(date: DateTime(2023, 12, 4)),
+  //   DateTime(2023, 12, 5) : Event(date: DateTime(2023, 12, 5)),
+  //   DateTime(2023, 12, 6) : Event(date: DateTime(2023, 12, 6)),
+  // });
+  Map<DateTime, List<Event>> _events = {
+    DateTime(2023, 12, 1): [Event(date: DateTime(2023, 12, 1))],
+    DateTime(2023, 12, 2): [Event(date: DateTime(2023, 12, 2))],
+    DateTime(2023, 12, 3): [Event(date: DateTime(2023, 12, 3))],
+    DateTime(2023, 12, 4): [Event(date: DateTime(2023, 12, 4))],
+    DateTime(2023, 12, 5): [Event(date: DateTime(2023, 12, 5))],
   };
 
   @override
@@ -337,12 +370,25 @@ class _CalendarScreenState extends State<CalendarScreen> {
             return isSameDay(_selectedDay, day);
           },
           onDaySelected: (selectedDay, focusedDay) {
-            setState(() {
-              _selectedDay = selectedDay;
-            });
-          },
-          eventLoader: (day) {
-            return _events[day] ?? [];
+            DateTime selectedDate = DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
+            //onselectedDay에 해당하는 이벤트가 _events맵에 존재하고 그 이벤트 목록이 비어있지 앟은 경우
+            if (_events.containsKey(selectedDate) && _events[selectedDate]!.isNotEmpty) {
+              Navigator.push(
+                context,
+                MaterialPageRoute(
+                  builder: (context) => StaticDayView(
+                    date: selectedDate,
+                    event: _events[selectedDate]!.first,
+                  ),
+                ),
+              );
+            }
+            if(!isSameDay(_selectedDay, selectedDay)){
+              setState(() {
+                _selectedDay = selectedDay;
+                _focusedDay = focusedDay;
+              });
+            }
           },
           onPageChanged: (focusedDay) {
             _focusedDay = focusedDay;
@@ -375,33 +421,24 @@ class _CalendarScreenState extends State<CalendarScreen> {
                   width: 2.0,
                 ),
               )),
+          calendarBuilders: CalendarBuilders(
+            // Event Marker
+            markerBuilder: (context, date, events) {
+              DateTime _date = DateTime(date.year, date.month, date.day);
+              if (_events.containsKey(_date) && _events[_date]!.isNotEmpty) {
+                return Container(
+                  width: MediaQuery.of(context).size.width * 0.11,
+                  padding: const EdgeInsets.only(bottom: 5),
+                  decoration: const BoxDecoration(
+                    shape: BoxShape.circle,
+                    color: Color.fromRGBO(132, 116, 247, 80),
+                  ),
+                );
+              }
+            },
+          ),
         ),
         SizedBox(height: 16),
-        if (_selectedDay != null && _events.containsKey(_selectedDay))
-          _buildEventCircle(),
-      ],
-    );
-  }
-
-  Widget _buildEventCircle() {
-    return Stack(
-      alignment: Alignment.center,
-      children: [
-        Container(
-          width: 40,
-          height: 40,
-          decoration: BoxDecoration(
-            shape: BoxShape.circle,
-            color: Colors.red, // 동그란 원의 색상
-          ),
-        ),
-        Text(
-          '${_events[_selectedDay]?.length ?? 0}',
-          style: TextStyle(
-            color: Colors.white,
-            fontWeight: FontWeight.bold,
-          ),
-        ),
       ],
     );
   }

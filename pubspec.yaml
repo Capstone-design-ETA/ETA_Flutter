@@ -33,7 +33,10 @@ dependencies:
   table_calendar: ^3.0.9
   intl: ^0.18.1
   image_picker: ^1.0.4
-#  call_log: ^4.0.0
+  call_log: ^4.0.0
+  health: ^8.1.0
+  permission_handler:
+
 
 
   # The following adds the Cupertino Icons font to your application.
@@ -46,7 +49,6 @@ dev_dependencies:
   flutter_test:
     sdk: flutter
 #  call_log: ^4.0.0
-#  health: ^8.0.0
 
   # The "flutter_lints" package below contains a set of recommended lints to
   # encourage good coding practices. The lint set provided by the package is
