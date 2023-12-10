@@ -9,10 +9,10 @@ import 'package:flutter_naver_map/flutter_naver_map.dart';
 import '../model/diary.dart';
 import '../model/event.dart';
 
-
 class StaticDayView extends StatefulWidget {
   final DateTime date;
   final Event event;
+
   StaticDayView({required this.date, required this.event});
 
   @override
@@ -20,11 +20,17 @@ class StaticDayView extends StatefulWidget {
 }
 
 class _StaticDayViewState extends State<StaticDayView> {
-  DailyStatistics dailyStatistics = DailyStatistics(
-      date: '2023-12-1', steps: 10000);
+  DailyStatistics dailyStatistics =
+      DailyStatistics(date: '2023-12-1', steps: 10000);
   List<Diary> diaries = [
-    Diary(date: '2023/12/1',image: 'images/selfie.png', content: '제주도 여행!! 넘 재밌었다'),
-    Diary(date: '2023/12/1',image: 'images/selfie2.png', content: '제주도 여행2!!개꿀잼'),
+    Diary(
+        date: '2023/12/1',
+        image: 'images/selfie.png',
+        content: '제주도 여행!! 넘 재밌었다'),
+    Diary(
+        date: '2023/12/1',
+        image: 'images/selfie2.png',
+        content: '제주도 여행2!!개꿀잼'),
     //Diary(date: '2023/12/3',image: 'images/selfie.png', content: '제주도 여행!! 넘 재밌었다'),
     //Diary(date: '2023/12/5',image: 'images/selfie.png', content: '제주도 여행!! 넘 재밌었다')
   ];
@@ -59,8 +65,7 @@ class _StaticDayViewState extends State<StaticDayView> {
                       crossAxisAlignment: CrossAxisAlignment.stretch,
                       children: [
                         Text(
-                          '${widget.date.year}년 ${widget.date.month}월 ${widget
-                              .date.day}일',
+                          '${widget.date.year}년 ${widget.date.month}월 ${widget.date.day}일',
                           style: TextStyle(
                             fontSize: 20,
                             fontWeight: FontWeight.bold,
@@ -74,8 +79,8 @@ class _StaticDayViewState extends State<StaticDayView> {
                           children: [
                             Icon(Icons.hiking),
                             SizedBox(width: 10),
-                            Text('${dailyStatistics.steps}걸음', style: TextStyle(
-                                color: Colors.black)),
+                            Text('${dailyStatistics.steps}걸음',
+                                style: TextStyle(color: Colors.black)),
                           ],
                         ),
                         SizedBox(height: 16),
@@ -96,7 +101,7 @@ class _StaticDayViewState extends State<StaticDayView> {
                             SizedBox(width: 10),
                             FutureBuilder<List<CallLogEntry>>(
                               future: getCallLogs(),
-                              // 통화 기록을 가져오는 비동기 함수 (적절히 수정 필요)
+                              // 통화 기록을 가져오는 비동기 함수
                               builder: (context, snapshot) {
                                 if (snapshot.connectionState ==
                                     ConnectionState.waiting) {
@@ -107,11 +112,12 @@ class _StaticDayViewState extends State<StaticDayView> {
                                     snapshot.data!.isNotEmpty) {
                                   // 통화 기록이 있는 경우
                                   return Column(
-                                    crossAxisAlignment: CrossAxisAlignment.start,
+                                    crossAxisAlignment:
+                                        CrossAxisAlignment.start,
                                     children: [
                                       for (var callLogEntry in snapshot.data!)
                                         Text(
-                                            '${(callLogEntry.timestamp != null) ? DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(callLogEntry.timestamp!)): '시간접근불가'} ${callLogEntry.name}'),
+                                            '${(callLogEntry.timestamp != null) ? DateFormat('HH:mm').format(DateTime.fromMillisecondsSinceEpoch(callLogEntry.timestamp!)) : '시간접근불가'} ${callLogEntry.name}'),
                                     ],
                                   );
                                 } else {
@@ -162,6 +168,36 @@ class _StaticDayViewState extends State<StaticDayView> {
                       children: [
                         Row(
                           children: [
+                            Icon(Icons.map_outlined),
+                            SizedBox(width: 10),
+                            Text(
+                              '${widget.date.month}월 ${widget.date.day}일의 루트라인',
+                              style: TextStyle(
+                                fontSize: 20,
+                                fontWeight: FontWeight.bold,
+                                color: Color.fromRGBO(132, 116, 247, 100),
+                              ),
+                            ),
+                          ],
+                        ),
+                        SizedBox(height: 8),
+                        Container(
+                            height:300,
+                            width: 300,
+                            constraints: BoxConstraints.tightFor(width: 300, height: 300),
+                            child: RouteLine()),
+                      ],
+                    ),
+                  ),
+                ),
+                Card(
+                  child: Padding(
+                    padding: const EdgeInsets.all(16.0),
+                    child: Column(
+                      crossAxisAlignment: CrossAxisAlignment.stretch,
+                      children: [
+                        Row(
+                          children: [
                             Icon(Icons.event_note),
                             SizedBox(width: 10),
                             Text(
@@ -189,18 +225,15 @@ class _StaticDayViewState extends State<StaticDayView> {
                                     ),
                                     Image.asset(
                                       diaries[index].image,
-                                      width: MediaQuery
-                                          .of(context)
-                                          .size
-                                          .width,
+                                      width: MediaQuery.of(context).size.width,
                                       fit: BoxFit.cover,
                                     ),
                                     Container(
                                       padding: EdgeInsets.all(20.0),
                                       alignment: Alignment.centerLeft,
                                       child: Column(
-                                        crossAxisAlignment: CrossAxisAlignment
-                                            .start,
+                                        crossAxisAlignment:
+                                            CrossAxisAlignment.start,
                                         children: [
                                           Text(
                                             diaries[index].date,
@@ -210,7 +243,9 @@ class _StaticDayViewState extends State<StaticDayView> {
                                             ),
                                             textAlign: TextAlign.start,
                                           ),
-                                          SizedBox(height: 10.0,),
+                                          SizedBox(
+                                            height: 10.0,
+                                          ),
                                           Text(
                                             diaries[index].content,
                                             style: TextStyle(
@@ -338,21 +373,33 @@ class RouteLine extends StatefulWidget {
 
 class _RouteLineState extends State<RouteLine> {
   late NaverMapController _controller;
-  final List<NMarker> markers = [
-    NMarker(id: '1', position: NLatLng(37.5665, 126.9780)),
-    NMarker(id: '2', position: NLatLng(37.5665, 126.9780)),
-    NMarker(id: '3', position: NLatLng(37.5665, 126.9780))
-  ];
+  final NMarker marker1 = NMarker(
+      id: '1',
+      position: NLatLng(33.406035981908, 126.33670567287),
+      icon: NOverlayImage.fromAssetImage("images/selfie.png"), size:Size(50, 50));
+  final NMarker marker2 = NMarker(
+      id: '2',
+      position: NLatLng(33.469642627187, 126.34043921252),
+      icon: NOverlayImage.fromAssetImage("images/selfie2.png"), size:Size(50, 50));
 
   @override
   Widget build(BuildContext context) {
     return NaverMap(
       onMapReady: (controller) {
         _controller = controller;
+        _controller.addOverlay(marker1);
+        _controller.addOverlay(marker2);
+        NPathOverlay pathOverlay = NPathOverlay(id: "test", coords: [
+          NLatLng(33.406035981908, 126.33670567287),
+          NLatLng(33.469642627187, 126.34043921252)
+        ],
+          color: Color.fromRGBO(132, 116, 247, 100),
+        );
+        _controller.addOverlay(pathOverlay);
       },
-
-
+      options: NaverMapViewOptions(
+          initialCameraPosition: NCameraPosition(
+              target: NLatLng(33.406035981908, 126.33670567287), zoom: 10)),
     );
   }
 }
-
