@@ -16,6 +16,10 @@ class StaticMainView extends StatefulWidget {
 }
 
 class _StaticMainViewState extends State<StaticMainView> {
+  void initState() {
+    super.initState();
+    requestPermissions();
+  }
   Map<String, double> dataMap = {
     "용인": 5,
     "서울": 3,
@@ -47,7 +51,7 @@ class _StaticMainViewState extends State<StaticMainView> {
           title: Text(
             '통계',
             style: TextStyle(
-              color: Colors.black,
+              color: Color.fromRGBO(132, 116, 247, 100),
             ),
           ),
           centerTitle: true,
@@ -79,7 +83,7 @@ class _StaticMainViewState extends State<StaticMainView> {
                 ),
               ),
               SizedBox(height: 40),
-              PermissionRequestButton(),
+              // PermissionRequestButton(),
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.end,
               //   children: [
@@ -137,12 +141,7 @@ class _StaticMainViewState extends State<StaticMainView> {
             BottomNavigationBarItem(
               icon: InkWell(
                 onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => StaticMainView(),
-                    ),
-                  );
+                 Navigator.pushNamed(context, '/writing');
                 },
                 child: Column(
                   children: [
@@ -226,7 +225,7 @@ class _StaticMainViewState extends State<StaticMainView> {
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
                             Text(
-                              '2023년 11월',
+                              '2023년 12월',
                               style: TextStyle(
                                 fontSize: 20,
                                 fontWeight: FontWeight.bold,
@@ -236,9 +235,10 @@ class _StaticMainViewState extends State<StaticMainView> {
                             Row(
                               children: [
                                 Icon(Icons.hiking),
+                                SizedBox(width: 5),
                                 Expanded(
                                   child: Text(
-                                    '2023년 11월은 평균 10,000걸음을 걸었군요!',
+                                    '2023년 12월은 평균 5210걸음을 걸었군요!',
                                     style: TextStyle(color: Colors.black),
                                   ),
                                 ),
@@ -247,9 +247,10 @@ class _StaticMainViewState extends State<StaticMainView> {
                             Row(
                               children: [
                                 Icon(Icons.location_on),
+                                SizedBox(width: 5),
                                 Expanded(
                                   child: Text(
-                                    '2023년 11월은 총 18군데를 방문하였어요!',
+                                    '2023년 12월은 총 8군데를 방문하였어요!',
                                     style: TextStyle(color: Colors.green),
                                   ),
                                 ),
@@ -258,9 +259,10 @@ class _StaticMainViewState extends State<StaticMainView> {
                             Row(
                               children: [
                                 Icon(Icons.call),
+                                SizedBox(width: 5),
                                 Expanded(
                                   child: Text(
-                                    '2023년 11월은 엄마, 아빠, 학교와 가장 전화를 많이 하였어요!',
+                                    '2023년 12월은 집전화, Oh JImin, 엄마와 가장 전화를 많이 하였어요!',
                                     style: TextStyle(color: Colors.red),
                                   ),
                                 ),
@@ -333,23 +335,15 @@ class CalendarScreen extends StatefulWidget {
 class _CalendarScreenState extends State<CalendarScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
-  //예시 event
-  // final _events = LinkedHashMap(
-  //   equals: isSameDay,
-  // )..addAll({
-  //   DateTime(2023, 12, 1) : Event(date: DateTime(2023, 12, 1)),
-  //   DateTime(2023, 12, 2) : Event(date: DateTime(2023, 12, 2)),
-  //   DateTime(2023, 12, 3) : Event(date: DateTime(2023, 12, 3)),
-  //   DateTime(2023, 12, 4) : Event(date: DateTime(2023, 12, 4)),
-  //   DateTime(2023, 12, 5) : Event(date: DateTime(2023, 12, 5)),
-  //   DateTime(2023, 12, 6) : Event(date: DateTime(2023, 12, 6)),
-  // });
   Map<DateTime, List<Event>> _events = {
     DateTime(2023, 12, 1): [Event(date: DateTime(2023, 12, 1))],
     DateTime(2023, 12, 2): [Event(date: DateTime(2023, 12, 2))],
     DateTime(2023, 12, 3): [Event(date: DateTime(2023, 12, 3))],
     DateTime(2023, 12, 4): [Event(date: DateTime(2023, 12, 4))],
     DateTime(2023, 12, 5): [Event(date: DateTime(2023, 12, 5))],
+    DateTime(2023, 12, 6): [Event(date: DateTime(2023, 12, 6))],
+    DateTime(2023, 12, 7): [Event(date: DateTime(2023, 12, 7))],
+    DateTime(2023, 12, 8): [Event(date: DateTime(2023, 12, 8))],
   };
 
   @override
@@ -368,6 +362,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
             DateTime selectedDate = DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
             //onselectedDay에 해당하는 이벤트가 _events맵에 존재하고 그 이벤트 목록이 비어있지 앟은 경우
             if (_events.containsKey(selectedDate) && _events[selectedDate]!.isNotEmpty) {
+              print(selectedDate);
               Navigator.push(
                 context,
                 MaterialPageRoute(

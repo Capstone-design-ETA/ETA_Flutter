@@ -2,7 +2,7 @@ import 'package:eta_frontend/view/sign-in/sign-in_view.dart';
 import 'package:eta_frontend/view/sign-in/sign-up_body_view.dart';
 import 'package:eta_frontend/view/static_day_view.dart';
 import 'model/event.dart';
-import 'view/map_view.dart';
+import 'view/map/map_view.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'view/map/map_view.dart';
