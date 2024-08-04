@@ -20,6 +20,10 @@ class _StaticMainViewState extends State<StaticMainView> {
     super.initState();
     requestPermissions();
   }
+
+  /**
+   * 월별 통계 정보
+   */
   Map<String, double> dataMap = {
     "용인": 5,
     "서울": 3,
@@ -28,11 +32,12 @@ class _StaticMainViewState extends State<StaticMainView> {
   };
 
   final colorList = <Color>[
-    Colors.lightGreen,
-    Colors.blue,
-    Colors.orangeAccent,
-    Colors.purple,
+    Color.fromRGBO(96, 89, 247, 1),
+    Color.fromRGBO(101, 146, 254, 1),
+    Color.fromRGBO(54, 195, 254, 1),
+    Color.fromRGBO(140, 97, 255, 1),
   ];
+  int _selectedIndex = 2;
 
 
   @override
@@ -121,10 +126,31 @@ class _StaticMainViewState extends State<StaticMainView> {
         ),
         bottomNavigationBar: BottomNavigationBar(
           type: BottomNavigationBarType.fixed,
+          currentIndex: _selectedIndex,
+          onTap: (index) {
+            // 선택된 탭에 대한 동작 수행
+            switch (index) {
+              case 0:
+                Navigator.pushNamed(context, '/map');
+                break;
+              case 1:
+                Navigator.pushNamed(context, '/writing');
+                break;
+              case 2:
+                Navigator.pushNamed(context, '/statics');
+                break;
+              case 3:
+                Navigator.pushNamed(context, '/map');
+                break;
+            }
+          },
           items: <BottomNavigationBarItem>[
             BottomNavigationBarItem(
               icon: InkWell(
                 onTap: () {
+                  setState(() {
+                    _selectedIndex = 0; // 탭이 선택되었을 때 _selectedIndex 업데이트
+                  });
                   Navigator.pushNamed(context, '/map');
                 },
                 child: Column(
@@ -141,6 +167,9 @@ class _StaticMainViewState extends State<StaticMainView> {
             BottomNavigationBarItem(
               icon: InkWell(
                 onTap: () {
+                  setState(() {
+                    _selectedIndex = 1; // 탭이 선택되었을 때 _selectedIndex 업데이트
+                  });
                  Navigator.pushNamed(context, '/writing');
                 },
                 child: Column(
@@ -157,6 +186,9 @@ class _StaticMainViewState extends State<StaticMainView> {
             BottomNavigationBarItem(
               icon: InkWell(
                 onTap: () {
+                  setState(() {
+                    _selectedIndex = 2; // 탭이 선택되었을 때 _selectedIndex 업데이트
+                  });
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -178,6 +210,9 @@ class _StaticMainViewState extends State<StaticMainView> {
             BottomNavigationBarItem(
               icon: InkWell(
                 onTap: () {
+                  setState(() {
+                    _selectedIndex = 3; // 탭이 선택되었을 때 _selectedIndex 업데이트
+                  });
                   Navigator.push(
                     context,
                     MaterialPageRoute(
@@ -207,7 +242,7 @@ class _StaticMainViewState extends State<StaticMainView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('이달의 통계', style: TextStyle(
+          title: Text('2023년 12월 통계', style: TextStyle(
             color: Color.fromRGBO(132, 116, 247, 100),
             fontWeight: FontWeight.bold
           ),),
@@ -224,47 +259,87 @@ class _StaticMainViewState extends State<StaticMainView> {
                         child: Column(
                           crossAxisAlignment: CrossAxisAlignment.stretch,
                           children: [
-                            Text(
-                              '2023년 12월',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                              ),
-                            ),
-                            SizedBox(height: 16),
                             Row(
                               children: [
                                 Icon(Icons.hiking),
                                 SizedBox(width: 5),
                                 Expanded(
                                   child: Text(
-                                    '2023년 12월은 평균 5210걸음을 걸었군요!',
+                                    '평균 5210걸음',
                                     style: TextStyle(color: Colors.black),
                                   ),
                                 ),
                               ],
                             ),
-                            Row(
-                              children: [
-                                Icon(Icons.location_on),
-                                SizedBox(width: 5),
-                                Expanded(
-                                  child: Text(
-                                    '2023년 12월은 총 8군데를 방문하였어요!',
-                                    style: TextStyle(color: Colors.green),
-                                  ),
-                                ),
-                              ],
-                            ),
+                            // Row(
+                            //   children: [
+                            //     Icon(Icons.location_on),
+                            //     SizedBox(width: 5),
+                            //     Expanded(
+                            //       child: Text(
+                            //         '2023년 12월은 총 8군데를 방문하였어요!',
+                            //         style: TextStyle(color: Colors.green),
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                            // Row(
+                            //   children: [
+                            //     Icon(Icons.call),
+                            //     SizedBox(width: 5),
+                            //     Expanded(
+                            //       child: Text(
+                            //         '2023년 12월은 집전화, Oh JImin, 엄마와 가장 전화를 많이 하였어요!',
+                            //         style: TextStyle(color: Colors.red),
+                            //       ),
+                            //     ),
+                            //   ],
+                            // ),
+                          ],
+                        ),
+                      ),
+                    ),
+                  ),
+                  Card(
+                    child: Padding(
+                      padding: const EdgeInsets.all(10.0),
+                      child: SingleChildScrollView(
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.stretch,
+                          children: [
                             Row(
                               children: [
                                 Icon(Icons.call),
                                 SizedBox(width: 5),
-                                Expanded(
-                                  child: Text(
-                                    '2023년 12월은 집전화, Oh JImin, 엄마와 가장 전화를 많이 하였어요!',
-                                    style: TextStyle(color: Colors.red),
-                                  ),
+                                Text("월간 통화 Top3"),
+                              ],
+                            ),
+                            SizedBox(height: 7),
+                            Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+                                Column(
+                                  children: [
+                                    Image.asset("images/gold.png", width: 30, height: 30),
+                                    SizedBox(height: 3),
+                                    Text("엄마")
+                                  ],
+                                ),
+                                SizedBox(width: 10),
+                                Column(
+                                  children: [
+                                    Image.asset("images/silver.png",width: 30, height: 30),
+                                    SizedBox(height: 3),
+                                    Text("집전화")
+                                  ],
+                                ),
+                                SizedBox(width: 10),
+                                Column(
+                                  children: [
+                                    Image.asset("images/bronze.png",width: 30, height: 30),
+                                    SizedBox(height: 3),
+                                    Text("아빠")
+                                  ],
                                 ),
                               ],
                             ),
@@ -292,13 +367,26 @@ class _StaticMainViewState extends State<StaticMainView> {
                               size: 200.0,
                               values: [30.0, 25.0, 20.0, 25.0],
                               colors: [
-                                Colors.red,
-                                Colors.green,
-                                Colors.blue,
-                                Colors.orange
+                                Color.fromRGBO(96, 89, 247, 1),
+                                Color.fromRGBO(101, 146, 254, 1),
+                                Color.fromRGBO(54, 195, 254, 1),
+                                Color.fromRGBO(140, 97, 255, 1),
                               ],
-                              labels: ['용인', '수원', '제주도', '서울'],
+                              labels: ['용인\n30%', '수원\n25%', '제주도\n20%', '서울\n25%'],
                             ),
+                          ),
+                          SizedBox(height: 20),
+                          Row(
+                            children: [
+                              Icon(Icons.location_on),
+                              SizedBox(width: 5),
+                              Expanded(
+                                child: Text(
+                                  '총 8군데를 방문하였어요!',
+                                  style: TextStyle(color: Colors.black),
+                                ),
+                              ),
+                            ],
                           ),
                         ],
                       ),
@@ -336,14 +424,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
   DateTime _focusedDay = DateTime.now();
   DateTime? _selectedDay;
   Map<DateTime, List<Event>> _events = {
-    DateTime(2023, 12, 1): [Event(date: DateTime(2023, 12, 1))],
-    DateTime(2023, 12, 2): [Event(date: DateTime(2023, 12, 2))],
-    DateTime(2023, 12, 3): [Event(date: DateTime(2023, 12, 3))],
-    DateTime(2023, 12, 4): [Event(date: DateTime(2023, 12, 4))],
-    DateTime(2023, 12, 5): [Event(date: DateTime(2023, 12, 5))],
-    DateTime(2023, 12, 6): [Event(date: DateTime(2023, 12, 6))],
-    DateTime(2023, 12, 7): [Event(date: DateTime(2023, 12, 7))],
-    DateTime(2023, 12, 8): [Event(date: DateTime(2023, 12, 8))],
+    DateTime(2023, 12, 1): [Event(date: DateTime(2023, 12, 1))]
   };
 
   @override
@@ -499,8 +580,9 @@ class PieChartPainter extends CustomPainter {
     final double y = centerY + textRadius * sin(angle);
 
     final TextStyle textStyle = TextStyle(
-      color: Colors.black,
-      fontWeight: FontWeight.bold,
+      color: Colors.white,
+      fontSize: 15,
+      //fontWeight: FontWeight.bold,
     );
 
     final TextSpan span = TextSpan(
@@ -511,12 +593,17 @@ class PieChartPainter extends CustomPainter {
     final TextPainter textPainter = TextPainter(
       text: span,
       textDirection: TextDirection.ltr,
+      textAlign: TextAlign.center
     );
 
     textPainter.layout();
 
+    final double textX = centerX + (x - centerX) - textPainter.width / 2;
+    final double textY = centerY + (y - centerY) - textPainter.height / 2;
+
     textPainter.paint(
-        canvas, Offset(x - textPainter.width / 2, y - textPainter.height / 2));
+        canvas, Offset(textX, textY)
+    );
   }
 
   @override
