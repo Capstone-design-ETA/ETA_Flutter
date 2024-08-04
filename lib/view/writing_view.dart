@@ -1,5 +1,7 @@
 import 'dart:io';
 import 'dart:convert';
+import 'package:eta_frontend/view/map/map_view2.dart';
+import 'package:eta_frontend/view/sign-in/sign-in_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:image_picker/image_picker.dart';
@@ -11,7 +13,6 @@ import 'package:native_exif/native_exif.dart';
 import 'package:http/http.dart' as http;
 
 import 'package:kpostal/kpostal.dart';
-
 
 class WritingView extends StatefulWidget {
   const WritingView({super.key});
@@ -26,7 +27,6 @@ class _WritingViewState extends State<WritingView> {
   DateTime? selectedDate;
   TextEditingController titleController = TextEditingController();
   TextEditingController contentController = TextEditingController();
-
 
   final picker = ImagePicker();
 
@@ -80,7 +80,6 @@ class _WritingViewState extends State<WritingView> {
     });
     print(pickedFiles.length);
 
-    
     exif = await Exif.fromPath(pickedFiles[0]!.path);
     attributes = await exif!.getAttributes();
     shootingDate = await exif!.getOriginalDate();
@@ -91,22 +90,19 @@ class _WritingViewState extends State<WritingView> {
     print(coordinates);
 
     final gpsUrl =
-        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${coordinates!
-        .latitude},${coordinates!.longitude}&key=$gpsApiKey&language=ko';
+        'https://maps.googleapis.com/maps/api/geocode/json?latlng=${coordinates!.latitude},${coordinates!.longitude}&key=$gpsApiKey&language=ko';
     final responseGps = await http.get(Uri.parse(gpsUrl));
-    final formatted_address = jsonDecode(
-        responseGps.body)['results'][0]['formatted_address'];
-    ETALocation = jsonDecode(
-        responseGps.body)['results'][0]['address_components'][3]['long_name'];
+    final formatted_address =
+        jsonDecode(responseGps.body)['results'][0]['formatted_address'];
+    ETALocation = jsonDecode(responseGps.body)['results'][0]
+        ['address_components'][3]['long_name'];
     print(ETALocation);
-
 
     setState(() {
       selectedDate = shootingDate;
       address = formatted_address;
     });
   }
-
 
   String postCode = '';
   String address = '';
@@ -115,7 +111,6 @@ class _WritingViewState extends State<WritingView> {
   String kakaoLatitude = '';
   String kakaoLongitude = '';
   String ETALocation = '';
-
 
   @override
   Widget build(BuildContext context) {
@@ -166,8 +161,9 @@ class _WritingViewState extends State<WritingView> {
                       });
                     },
                     child: Text(
-                      selectedDate == null ? '' :
-                      DateFormat('yyyy-MM-dd').format(selectedDate!),
+                      selectedDate == null
+                          ? ''
+                          : DateFormat('yyyy-MM-dd').format(selectedDate!),
                       textAlign: TextAlign.start,
                       style: TextStyle(
                         color: Colors.black87,
@@ -193,9 +189,10 @@ class _WritingViewState extends State<WritingView> {
                   width: double.infinity,
                   child: ElevatedButton(
                     onPressed: () async {
-                      await Navigator.push(context, MaterialPageRoute(
-                        builder: (_) =>
-                            KpostalView(
+                      await Navigator.push(
+                          context,
+                          MaterialPageRoute(
+                            builder: (_) => KpostalView(
                               callback: (Kpostal result) {
                                 setState(() {
                                   this.postCode = result.postCode;
@@ -206,13 +203,12 @@ class _WritingViewState extends State<WritingView> {
                                       result.kakaoLatitude.toString();
                                   this.kakaoLongitude =
                                       result.kakaoLongitude.toString();
-                                  this.ETALocation =
-                                      result.sigungu.toString();
+                                  this.ETALocation = result.sigungu.toString();
                                 });
                                 print(ETALocation);
                               },
                             ),
-                      ));
+                          ));
                     },
                     child: Text(
                       this.address,
@@ -249,10 +245,18 @@ class _WritingViewState extends State<WritingView> {
                       ),
                       filled: true),
                 ),
-                SizedBox(height: 40.0,),
+                SizedBox(
+                  height: 40.0,
+                ),
                 ElevatedButton(
                     onPressed: () {
-                      Navigator.pop(context);
+                      Navigator.push(
+                        context,
+                        MaterialPageRoute(
+                          // builder: (context) => MapView2(),
+                          builder: (context) => SignInView(),
+                        ),
+                      );
                     },
                     child: Text(
                       '완료',
@@ -274,37 +278,35 @@ class _WritingViewState extends State<WritingView> {
     );
   }
 
-
   Widget _buildPhotoArea() {
     return _images.isNotEmpty
         ? SizedBox(
-          height: 100,
-          child: ListView.builder(
-            scrollDirection: Axis.horizontal,
-            shrinkWrap: true,
-            itemCount: _images.length,
-            itemBuilder: (context, index) {
-              return Container(
-                margin: EdgeInsets.only(right: 8.0),
-                width: 100,
-                height: 100,
-                child: Image.file(File(_images[index]!.path),
-                  fit: BoxFit.cover,
-                ),
-              );
-            }
-          ),
-        )
+            height: 100,
+            child: ListView.builder(
+                scrollDirection: Axis.horizontal,
+                shrinkWrap: true,
+                itemCount: _images.length,
+                itemBuilder: (context, index) {
+                  return Container(
+                    margin: EdgeInsets.only(right: 8.0),
+                    width: 100,
+                    height: 100,
+                    child: Image.file(
+                      File(_images[index]!.path),
+                      fit: BoxFit.cover,
+                    ),
+                  );
+                }),
+          )
         : Container(
-        width: 100,
-        height: 100,
-        child: IconButton(
-          onPressed: () {
-            getImages();
-          },
-          icon: Icon(Icons.camera_alt),
-          color: Color(0xFF8474F7),
-        )
-    );
+            width: 100,
+            height: 100,
+            child: IconButton(
+              onPressed: () {
+                getImages();
+              },
+              icon: Icon(Icons.camera_alt),
+              color: Color(0xFF8474F7),
+            ));
   }
 }

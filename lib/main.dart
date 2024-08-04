@@ -2,7 +2,6 @@ import 'package:eta_frontend/view/sign-in/sign-in_view.dart';
 import 'package:eta_frontend/view/sign-in/sign-up_body_view.dart';
 import 'package:eta_frontend/view/static_day_view.dart';
 import 'model/event.dart';
-import 'view/map/map_view.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'view/map/map_view.dart';
@@ -18,10 +17,11 @@ void main() async {
 
   //네이버 지도 초기화
   WidgetsFlutterBinding.ensureInitialized();
-  await NaverMapSdk.instance.initialize(clientId: '29o5emcbkh',
-      onAuthFailed: (ex) {
-        print("********* 네이버맵 인증오류 : $ex *********");
-      });
+  // await NaverMapSdk.instance.initialize(
+  //     clientId: '29o5emcbkh',
+  //     onAuthFailed: (ex) {
+  //       print("********* 네이버맵 인증오류 : $ex *********");
+  //     });
 
   await initializeDateFormatting();
   runApp(const MyApp());
@@ -39,11 +39,11 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ETA',
-      initialRoute: '/map',
+      initialRoute: '/sign-in',
       routes: {
         '/sign-in': (context) => SignInView(),
         '/sign-up': (context) => SignupBodyView(),
-        '/map': (context) => MapView(),
+        // '/map': (context) => MapView(),
         '/statics': (context) => StaticMainView(),
         '/statics/day': (context) {
           final arguments = ModalRoute.of(context)!.settings.arguments

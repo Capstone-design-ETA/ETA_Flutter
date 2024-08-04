@@ -125,6 +125,7 @@ class _StaticMainViewState extends State<StaticMainView> {
           ),
         ),
         bottomNavigationBar: BottomNavigationBar(
+          currentIndex: 2,
           type: BottomNavigationBarType.fixed,
           currentIndex: _selectedIndex,
           onTap: (index) {
