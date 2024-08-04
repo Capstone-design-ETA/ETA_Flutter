@@ -31,11 +31,9 @@ class _StaticDayViewState extends State<StaticDayView> {
         date: '2023/12/1',
         image: 'images/selfie2.png',
         content: '제주도 여행2!!개꿀잼'),
-    //Diary(date: '2023/12/3',image: 'images/selfie.png', content: '제주도 여행!! 넘 재밌었다'),
-    //Diary(date: '2023/12/5',image: 'images/selfie.png', content: '제주도 여행!! 넘 재밌었다')
   ];
   Future<PermissionStatus> permission = Permission.phone.status;
-
+  int _selectedIndex = 2;
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -81,11 +79,7 @@ class _StaticDayViewState extends State<StaticDayView> {
                             SizedBox(width: 10),
                             Text('${dailyStatistics.steps}걸음',
                                 style: TextStyle(color: Colors.black)),
-                          ],
-                        ),
-                        SizedBox(height: 16),
-                        Row(
-                          children: [
+                            SizedBox(width: 30),
                             Icon(Icons.local_fire_department),
                             SizedBox(width: 10),
                             Text('${dailyStatistics.steps * 0.05} Kcal',
@@ -270,89 +264,13 @@ class _StaticDayViewState extends State<StaticDayView> {
             ),
           ),
         ),
-        bottomNavigationBar: BottomNavigationBar(
-          type: BottomNavigationBarType.fixed,
-          items: <BottomNavigationBarItem>[
-            BottomNavigationBarItem(
-              icon: InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, '/map');
-                },
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.location_on,
-                      color: Color.fromRGBO(132, 116, 247, 100),
-                    ),
-                  ],
-                ),
-              ),
-              label: '지도',
-            ),
-            BottomNavigationBarItem(
-              icon: InkWell(
-                onTap: () {
-                  Navigator.pushNamed(context, '/writing');
-                },
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.edit_note,
-                      color: Color.fromRGBO(132, 116, 247, 100),
-                    ),
-                  ],
-                ),
-              ),
-              label: '기록',
-            ),
-            BottomNavigationBarItem(
-              icon: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => StaticMainView(),
-                    ),
-                  );
-                },
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.analytics,
-                      color: Color.fromRGBO(132, 116, 247, 100),
-                    ),
-                  ],
-                ),
-              ),
-              label: '통계',
-            ),
-            BottomNavigationBarItem(
-              icon: InkWell(
-                onTap: () {
-                  Navigator.push(
-                    context,
-                    MaterialPageRoute(
-                      builder: (context) => StaticMainView(),
-                    ),
-                  );
-                },
-                child: Column(
-                  children: [
-                    Icon(
-                      Icons.settings,
-                      color: Color.fromRGBO(132, 116, 247, 100),
-                    ),
-                  ],
-                ),
-              ),
-              label: '설정',
-            ),
-          ],
-        ),
       ),
     );
   }
 
+  /**
+   * 전화기록 조회
+   */
   Future<List<CallLogEntry>> getCallLogs() async {
     PermissionStatus permissionStatus = await Permission.phone.status;
     if (permissionStatus.isGranted) {
