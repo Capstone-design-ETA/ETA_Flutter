@@ -1,6 +1,6 @@
 import 'dart:io';
 import 'dart:convert';
-import 'package:eta_frontend/view/map/map_view2.dart';
+// import 'package:eta_frontend/view/map/map_view2.dart';
 import 'package:eta_frontend/view/sign-in/sign-in_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';

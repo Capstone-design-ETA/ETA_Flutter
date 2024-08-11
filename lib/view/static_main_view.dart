@@ -39,7 +39,6 @@ class _StaticMainViewState extends State<StaticMainView> {
   ];
   int _selectedIndex = 2;
 
-
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
@@ -63,7 +62,7 @@ class _StaticMainViewState extends State<StaticMainView> {
           backgroundColor: Colors.white,
         ),
         body: SingleChildScrollView(
-          child : Column(
+          child: Column(
             children: [
               CalendarScreen(),
               SizedBox(height: 40),
@@ -92,34 +91,34 @@ class _StaticMainViewState extends State<StaticMainView> {
               // Row(
               //   mainAxisAlignment: MainAxisAlignment.end,
               //   children: [
-                  // // ElevatedButton(
-                  // //   onPressed: () {
-                  // //     Navigator.push(
-                  // //       context,
-                  // //       // MaterialPageRoute(
-                  // //         // builder: (context) => StaticDayView(),
-                  // //       ),
-                  // //     );
-                  // //   },
-                  // //   style: ElevatedButton.styleFrom(
-                  // //     fixedSize: Size(138, 60),
-                  // //     primary: Color.fromRGBO(88, 70, 245, 70),
-                  // //     onPrimary: Colors.white,
-                  // //     elevation: 4,
-                  // //     padding: EdgeInsets.all(8),
-                  // //     shape: CircleBorder(),
-                  // //   ),
-                  //   /*shape: RoundedRectangleBorder(
-                  //         borderRadius: BorderRadius.circular(14.5),
-                  //       ))*/
-                  //   child: Text(
-                  //     '+',
-                  //     style: TextStyle(
-                  //       fontSize: 18,
-                  //     ),
-                  //   ),
-                  // ),
-                //],
+              // // ElevatedButton(
+              // //   onPressed: () {
+              // //     Navigator.push(
+              // //       context,
+              // //       // MaterialPageRoute(
+              // //         // builder: (context) => StaticDayView(),
+              // //       ),
+              // //     );
+              // //   },
+              // //   style: ElevatedButton.styleFrom(
+              // //     fixedSize: Size(138, 60),
+              // //     primary: Color.fromRGBO(88, 70, 245, 70),
+              // //     onPrimary: Colors.white,
+              // //     elevation: 4,
+              // //     padding: EdgeInsets.all(8),
+              // //     shape: CircleBorder(),
+              // //   ),
+              //   /*shape: RoundedRectangleBorder(
+              //         borderRadius: BorderRadius.circular(14.5),
+              //       ))*/
+              //   child: Text(
+              //     '+',
+              //     style: TextStyle(
+              //       fontSize: 18,
+              //     ),
+              //   ),
+              // ),
+              //],
               //)
             ],
           ),
@@ -127,7 +126,7 @@ class _StaticMainViewState extends State<StaticMainView> {
         bottomNavigationBar: BottomNavigationBar(
           currentIndex: 2,
           type: BottomNavigationBarType.fixed,
-          currentIndex: _selectedIndex,
+          // currentIndex: _selectedIndex,
           onTap: (index) {
             // 선택된 탭에 대한 동작 수행
             switch (index) {
@@ -171,7 +170,7 @@ class _StaticMainViewState extends State<StaticMainView> {
                   setState(() {
                     _selectedIndex = 1; // 탭이 선택되었을 때 _selectedIndex 업데이트
                   });
-                 Navigator.pushNamed(context, '/writing');
+                  Navigator.pushNamed(context, '/writing');
                 },
                 child: Column(
                   children: [
@@ -243,10 +242,12 @@ class _StaticMainViewState extends State<StaticMainView> {
       context: context,
       builder: (BuildContext context) {
         return AlertDialog(
-          title: Text('2023년 12월 통계', style: TextStyle(
-            color: Color.fromRGBO(132, 116, 247, 100),
-            fontWeight: FontWeight.bold
-          ),),
+          title: Text(
+            '2023년 12월 통계',
+            style: TextStyle(
+                color: Color.fromRGBO(132, 116, 247, 100),
+                fontWeight: FontWeight.bold),
+          ),
           content: Padding(
             padding: const EdgeInsets.all(8.0),
             child: SingleChildScrollView(
@@ -321,7 +322,8 @@ class _StaticMainViewState extends State<StaticMainView> {
                               children: [
                                 Column(
                                   children: [
-                                    Image.asset("images/gold.png", width: 30, height: 30),
+                                    Image.asset("images/gold.png",
+                                        width: 30, height: 30),
                                     SizedBox(height: 3),
                                     Text("엄마")
                                   ],
@@ -329,7 +331,8 @@ class _StaticMainViewState extends State<StaticMainView> {
                                 SizedBox(width: 10),
                                 Column(
                                   children: [
-                                    Image.asset("images/silver.png",width: 30, height: 30),
+                                    Image.asset("images/silver.png",
+                                        width: 30, height: 30),
                                     SizedBox(height: 3),
                                     Text("집전화")
                                   ],
@@ -337,7 +340,8 @@ class _StaticMainViewState extends State<StaticMainView> {
                                 SizedBox(width: 10),
                                 Column(
                                   children: [
-                                    Image.asset("images/bronze.png",width: 30, height: 30),
+                                    Image.asset("images/bronze.png",
+                                        width: 30, height: 30),
                                     SizedBox(height: 3),
                                     Text("아빠")
                                   ],
@@ -373,7 +377,12 @@ class _StaticMainViewState extends State<StaticMainView> {
                                 Color.fromRGBO(54, 195, 254, 1),
                                 Color.fromRGBO(140, 97, 255, 1),
                               ],
-                              labels: ['용인\n30%', '수원\n25%', '제주도\n20%', '서울\n25%'],
+                              labels: [
+                                '용인\n30%',
+                                '수원\n25%',
+                                '제주도\n20%',
+                                '서울\n25%'
+                              ],
                             ),
                           ),
                           SizedBox(height: 20),
@@ -402,9 +411,12 @@ class _StaticMainViewState extends State<StaticMainView> {
               onPressed: () {
                 Navigator.of(context).pop();
               },
-              child: Text('X', style: TextStyle(
-                color: Color.fromRGBO(132, 116, 247, 100),
-              ),),
+              child: Text(
+                'X',
+                style: TextStyle(
+                  color: Color.fromRGBO(132, 116, 247, 100),
+                ),
+              ),
             ),
           ],
         );
@@ -441,9 +453,11 @@ class _CalendarScreenState extends State<CalendarScreen> {
             return isSameDay(_selectedDay, day);
           },
           onDaySelected: (selectedDay, focusedDay) {
-            DateTime selectedDate = DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
+            DateTime selectedDate =
+                DateTime(selectedDay.year, selectedDay.month, selectedDay.day);
             //onselectedDay에 해당하는 이벤트가 _events맵에 존재하고 그 이벤트 목록이 비어있지 앟은 경우
-            if (_events.containsKey(selectedDate) && _events[selectedDate]!.isNotEmpty) {
+            if (_events.containsKey(selectedDate) &&
+                _events[selectedDate]!.isNotEmpty) {
               print(selectedDate);
               Navigator.push(
                 context,
@@ -455,7 +469,7 @@ class _CalendarScreenState extends State<CalendarScreen> {
                 ),
               );
             }
-            if(!isSameDay(_selectedDay, selectedDay)){
+            if (!isSameDay(_selectedDay, selectedDay)) {
               setState(() {
                 _selectedDay = selectedDay;
                 _focusedDay = focusedDay;
@@ -592,19 +606,16 @@ class PieChartPainter extends CustomPainter {
     );
 
     final TextPainter textPainter = TextPainter(
-      text: span,
-      textDirection: TextDirection.ltr,
-      textAlign: TextAlign.center
-    );
+        text: span,
+        textDirection: TextDirection.ltr,
+        textAlign: TextAlign.center);
 
     textPainter.layout();
 
     final double textX = centerX + (x - centerX) - textPainter.width / 2;
     final double textY = centerY + (y - centerY) - textPainter.height / 2;
 
-    textPainter.paint(
-        canvas, Offset(textX, textY)
-    );
+    textPainter.paint(canvas, Offset(textX, textY));
   }
 
   @override
