@@ -6,73 +6,8 @@ import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
 
-class AuthService {
-  final GoogleSignIn _googleSignIn = GoogleSignIn(scopes: ['email']);
-  final storage = FlutterSecureStorage();
-  final String _baseUrl = 'http://localhost:8080'; // 백엔드 URL
-
-  Future<String?> signInWithGoogle() async {
-    try {
-      final GoogleSignInAccount? googleUser = await _googleSignIn.signIn();
-      if (googleUser == null) return null;
-
-      final GoogleSignInAuthentication googleAuth =
-          await googleUser.authentication;
-
-// 백엔드로 ID 토큰 전송
-      final response = await http.post(
-        Uri.parse('http://localhost:8080/oauth/google'),
-        body: {'id_token': googleAuth.idToken},
-      );
-
-      if (response.statusCode == 200) {
-        final jwt = json.decode(response.body)['access_token'];
-        await storage.write(key: 'jwt_token', value: jwt);
-        return jwt;
-      } else {
-        throw Exception('Failed to sign in with Google');
-      }
-    } catch (error) {
-      print(error);
-      return null;
-    }
-  }
-
-  Future<void> signOut() async {
-    await _googleSignIn.signOut();
-    await storage.delete(key: 'jwt_token');
-  }
-
-  Future<String?> getToken() async {
-    return await storage.read(key: 'jwt_token');
-  }
-}
-
-class ApiService {
-  final AuthService _authService;
-
-  ApiService(this._authService);
-
-  Future<dynamic> jwtTest() async {
-    final token = await _authService.getToken();
-    if (token == null) {
-      throw Exception('No token found');
-    }
-
-    final response = await http.get(
-      Uri.parse('http://localhost:8080/api/user/jwt-test?accessToken=$token'),
-    );
-
-    if (response.statusCode == 200) {
-      return json.decode(response.body);
-    } else {
-      throw Exception('Failed to test JWT: ${response.statusCode}');
-    }
-  }
-}
-
 class SignInView extends StatelessWidget {
-  const SignInView({super.key});
+  // const SignInView({super.key});
 
   // void signInWithGoogle(context) async {
   //   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
@@ -133,8 +68,6 @@ class SignInView extends StatelessWidget {
     }
   }
 
-  final ApiService _apiService = ApiService(AuthService());
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -159,18 +92,7 @@ class SignInView extends StatelessWidget {
               // onPressed: () {
               //   signInWithGoogle(context);
               // },
-              onPressed: () async {
-                try {
-                  final result = await _apiService.jwtTest();
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('JWT Test successful: $result')),
-                  );
-                } catch (e) {
-                  ScaffoldMessenger.of(context).showSnackBar(
-                    SnackBar(content: Text('JWT Test failed: $e')),
-                  );
-                }
-              },
+              onPressed: () {},
               style: ElevatedButton.styleFrom(
                   fixedSize: Size.fromHeight(53.0),
                   primary: Color(0xFFFFFFFF),
