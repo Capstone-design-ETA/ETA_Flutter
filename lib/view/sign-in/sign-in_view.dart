@@ -5,68 +5,10 @@ import 'package:google_sign_in/google_sign_in.dart';
 import 'package:flutter_web_auth_2/flutter_web_auth_2.dart';
 import 'package:http/http.dart' as http;
 import 'package:flutter_secure_storage/flutter_secure_storage.dart';
+import 'package:google_sign_in/google_sign_in.dart';
 
 class SignInView extends StatelessWidget {
   // const SignInView({super.key});
-
-  // void signInWithGoogle(context) async {
-  //   final GoogleSignInAccount? googleUser = await GoogleSignIn().signIn();
-  //
-  //   if (googleUser != null) {
-  //     Navigator.pushNamed(context, '/sign-up');
-  //   }
-  // }
-
-  void signInWithGoogle(BuildContext context) async {
-// // 클라이언트 ID와 리다이렉트 URL을 기입합니다.
-    final String googleClientId =
-        "654187401153-e24j689kuup16v4n4jsoj3bc551r87fv.apps.googleusercontent.com";
-    final String callbackUrlScheme =
-        'com.googleusercontent.apps.654187401153-e24j689kuup16v4n4jsoj3bc551r87fv';
-
-    try {
-      final authUrl = Uri.https(
-        'accounts.google.com',
-        '/o/oauth2/v2/auth',
-        {
-          'response_type': 'code',
-          'client_id': googleClientId,
-          'redirect_uri': '$callbackUrlScheme:/',
-          'scope': 'email',
-        },
-      );
-      debugPrint(authUrl.toString());
-
-      final result = await FlutterWebAuth2.authenticate(
-        url: authUrl.toString(),
-        callbackUrlScheme: callbackUrlScheme,
-      );
-      debugPrint("paso");
-      debugPrint(result);
-      final code = Uri.parse(result).queryParameters['code'];
-
-      final tokenUrl = Uri.https('oauth2.googleapis.com', '/token');
-
-      final response = await http.post(
-        tokenUrl,
-        body: {
-          // 'client_id': googleClientId,
-          // 'redirect_uri': '$callbackUrlScheme:/',
-          // 'grant_type': 'authorization_code',
-          'code': code,
-        },
-      );
-
-      // final accessToken = jsonDecode(response.body)['access_token'] as String;
-      // final idToken =
-      // jsonDecode(response.body)['id_token'] as String;
-      //
-      // debugPrint('Access Token: $accessToken');
-      // debugPrint('ID Token: $idToken');
-    } catch (e) {
-      debugPrint('Error during Google login: $e');
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -89,10 +31,11 @@ class SignInView extends StatelessWidget {
               height: 100.0,
             ),
             ElevatedButton(
-              // onPressed: () {
-              //   signInWithGoogle(context);
-              // },
-              onPressed: () {},
+              // 구글 로그인
+              onPressed: () {
+                // signUpWithGoogle();
+                sendPostRequest();
+              },
               style: ElevatedButton.styleFrom(
                   fixedSize: Size.fromHeight(53.0),
                   primary: Color(0xFFFFFFFF),
@@ -164,4 +107,70 @@ class SignInView extends StatelessWidget {
       ),
     );
   }
+
+  Future<void> signUpWithGoogle() async {
+    // 백엔드로 토큰 전송 및 사용자 등록 로직 구현
+    // 예: HTTP POST 요청을 통해 토큰과 함께 사용자 정보를 백엔드로 전송
+    // 백엔드는 이 정보를 사용하여 사용자가 새로운 사용자인지 확인하고, 새로운 사용자라면 회원가입 처리를 합니다.
+    // final GoogleSignInAccount? googleSignInAccount = await GoogleSignIn().signIn();
+    // final GoogleSignInAuthentication googleSignInAuthentication = await googleSignInAccount!.authentication;
+    final url = Uri.parse('http://localhost:8080/oauth2/authorization/google');
+    try {
+      // http request
+      // final accessToken = googleSignInAuthentication.accessToken;
+      // print(accessToken);
+      final response = await http.post(
+          // 예시 IP 주소
+          url, // API URL
+          headers: {
+            'Content-Type': 'application/json',
+            // 'Authorization': 'Bearer $accessToken'
+          });
+      // if response is OK
+      if (response.statusCode == 200) {
+        // Spring Security 에서 발급해준 토큰을 저장
+        final storage = FlutterSecureStorage();
+        final responseData = json.decode(response.body);
+        final String token = responseData['token'];
+        await storage.write(key: 'token', value: token);
+      } else {
+        // error handling required
+        debugPrint("로그인에 실패했습니다!");
+      }
+    } catch (e) {
+      // networ error handling required
+      debugPrint("서버와의 접속이 끊겼습니다!");
+    }
+  }
+
+  Future<void> sendPostRequest() async {
+    final url = Uri.parse('http://localhost:8080/oauth2/authorization/google');
+
+    try {
+      final response = await http.post(
+        url,
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: '{}', // 필요에 따라 본문 데이터를 추가하세요.
+      );
+
+      if (response.statusCode == 200) {
+        print('Request was successful: ${response.body}');
+      } else {
+        print('Request failed with status: ${response.statusCode}');
+      }
+    } catch (e) {
+      print('An error occurred: $e');
+    }
+  }
 }
+
+// final GoogleSignIn _googleSignIn = GoogleSignIn(
+//   scopes: [
+//     'email',
+//     // 필요한 추가 스코프를 여기에 추가하세요
+//   ],
+// );
+
+
