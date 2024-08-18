@@ -1,4 +1,4 @@
-import 'package:eta_frontend/view/static_main_view.dart';
+import 'package:eta_frontend/view/statics/static_main_view.dart';
 import 'package:flutter/material.dart';
 
 class FeedsView extends StatefulWidget {
@@ -22,7 +22,9 @@ class _FeedsViewState extends State<FeedsView> {
               Icons.pin_drop,
               color: Color(0xFF686868),
             ),
-            SizedBox(width: 10.0,),
+            SizedBox(
+              width: 10.0,
+            ),
             Text(
               '제주시 - 애월',
               style: TextStyle(
@@ -36,7 +38,9 @@ class _FeedsViewState extends State<FeedsView> {
         elevation: 1.0,
         toolbarHeight: 61.0,
         leading: IconButton(
-            onPressed: () {Navigator.pop(context);},
+            onPressed: () {
+              Navigator.pop(context);
+            },
             icon: Icon(Icons.arrow_back_ios_rounded, color: Colors.black)),
         actions: [
           IconButton(
@@ -63,14 +67,16 @@ class _FeedsViewState extends State<FeedsView> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Text(
-                      '2023/12/1',
+                    '2023/12/1',
                     style: TextStyle(
                       fontSize: 17.0,
                       fontWeight: FontWeight.w700,
                     ),
                     textAlign: TextAlign.start,
                   ),
-                  SizedBox(height: 10.0,),
+                  SizedBox(
+                    height: 10.0,
+                  ),
                   Text(
                     '제주도 여행!! 넘 재밌었다 ',
                     style: TextStyle(
@@ -104,7 +110,9 @@ class _FeedsViewState extends State<FeedsView> {
                     ),
                     textAlign: TextAlign.start,
                   ),
-                  SizedBox(height: 10.0,),
+                  SizedBox(
+                    height: 10.0,
+                  ),
                   Text(
                     '제주도 여행2!!개꿀잼',
                     style: TextStyle(
@@ -138,7 +146,9 @@ class _FeedsViewState extends State<FeedsView> {
                     ),
                     textAlign: TextAlign.start,
                   ),
-                  SizedBox(height: 10.0,),
+                  SizedBox(
+                    height: 10.0,
+                  ),
                   Text(
                     '맛있다!!',
                     style: TextStyle(
@@ -171,7 +181,7 @@ class _FeedsViewState extends State<FeedsView> {
           ),
           BottomNavigationBarItem(
             icon: InkWell(
-              onTap: (){
+              onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -192,7 +202,7 @@ class _FeedsViewState extends State<FeedsView> {
           ),
           BottomNavigationBarItem(
             icon: InkWell(
-              onTap: (){
+              onTap: () {
                 Navigator.push(
                   context,
                   MaterialPageRoute(
@@ -229,4 +239,3 @@ class _FeedsViewState extends State<FeedsView> {
     );
   }
 }
-
