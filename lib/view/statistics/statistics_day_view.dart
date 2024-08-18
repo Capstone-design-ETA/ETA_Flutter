@@ -1,6 +1,6 @@
 import 'package:call_log/call_log.dart';
 import 'package:eta_frontend/model/dailyStatistics.dart';
-import 'package:eta_frontend/view/statics/static_main_view.dart';
+import 'package:eta_frontend/view/statistics/statistics_main_view.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';

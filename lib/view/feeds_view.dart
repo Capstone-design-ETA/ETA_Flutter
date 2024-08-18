@@ -1,4 +1,4 @@
-import 'package:eta_frontend/view/statics/static_main_view.dart';
+import 'package:eta_frontend/view/statistics/statistics_main_view.dart';
 import 'package:flutter/material.dart';
 
 class FeedsView extends StatefulWidget {
