@@ -5,7 +5,6 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../../controller/flow_controller.dart';
 
-
 class SignupBodyView extends StatefulWidget {
   const SignupBodyView({super.key});
 

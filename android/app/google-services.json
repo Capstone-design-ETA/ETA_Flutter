@@ -1,1 +1,9 @@
-{"installed":{"client_id":"654187401153-e24j689kuup16v4n4jsoj3bc551r87fv.apps.googleusercontent.com","project_id":"eta-khu","auth_uri":"https://accounts.google.com/o/oauth2/auth","token_uri":"https://oauth2.googleapis.com/token","auth_provider_x509_cert_url":"https://www.googleapis.com/oauth2/v1/certs"}}
+{
+    "installed": {
+        "client_id": "654187401153-c3p6ja239hdca9rtp4bt3cbl0b2332rg.apps.googleusercontent.com",
+        "project_id": "eta-khu",
+        "auth_uri": "https://accounts.google.com/o/oauth2/auth",
+        "token_uri": "https://oauth2.googleapis.com/token",
+        "auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs"
+    }
+}
