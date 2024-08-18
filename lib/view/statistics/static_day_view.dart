@@ -1,13 +1,13 @@
 import 'package:call_log/call_log.dart';
 import 'package:eta_frontend/model/dailyStatistics.dart';
-import 'package:eta_frontend/view/static_main_view.dart';
+import 'package:eta_frontend/view/statics/static_main_view.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import 'package:permission_handler/permission_handler.dart';
-import 'package:flutter_naver_map/flutter_naver_map.dart';
+// import 'package:flutter_naver_map/flutter_naver_map.dart';
 
-import '../model/diary.dart';
-import '../model/event.dart';
+import '../../model/diary.dart';
+import '../../model/event.dart';
 
 class StaticDayView extends StatefulWidget {
   final DateTime date;
@@ -162,36 +162,6 @@ class _StaticDayViewState extends State<StaticDayView> {
                       children: [
                         Row(
                           children: [
-                            Icon(Icons.map_outlined),
-                            SizedBox(width: 10),
-                            Text(
-                              '${widget.date.month}월 ${widget.date.day}일의 루트라인',
-                              style: TextStyle(
-                                fontSize: 20,
-                                fontWeight: FontWeight.bold,
-                                color: Color.fromRGBO(132, 116, 247, 100),
-                              ),
-                            ),
-                          ],
-                        ),
-                        SizedBox(height: 8),
-                        Container(
-                            height:300,
-                            width: 300,
-                            constraints: BoxConstraints.tightFor(width: 300, height: 300),
-                            child: RouteLine()),
-                      ],
-                    ),
-                  ),
-                ),
-                Card(
-                  child: Padding(
-                    padding: const EdgeInsets.all(16.0),
-                    child: Column(
-                      crossAxisAlignment: CrossAxisAlignment.stretch,
-                      children: [
-                        Row(
-                          children: [
                             Icon(Icons.event_note),
                             SizedBox(width: 10),
                             Text(
@@ -282,42 +252,42 @@ class _StaticDayViewState extends State<StaticDayView> {
   }
 }
 
-class RouteLine extends StatefulWidget {
-  const RouteLine({super.key});
+// class RouteLine extends StatefulWidget {
+//   const RouteLine({super.key});
 
-  @override
-  State<RouteLine> createState() => _RouteLineState();
-}
+//   @override
+//   State<RouteLine> createState() => _RouteLineState();
+// }
 
-class _RouteLineState extends State<RouteLine> {
-  late NaverMapController _controller;
-  final NMarker marker1 = NMarker(
-      id: '1',
-      position: NLatLng(33.406035981908, 126.33670567287),
-      icon: NOverlayImage.fromAssetImage("images/selfie.png"), size:Size(50, 50));
-  final NMarker marker2 = NMarker(
-      id: '2',
-      position: NLatLng(33.469642627187, 126.34043921252),
-      icon: NOverlayImage.fromAssetImage("images/selfie2.png"), size:Size(50, 50));
+// class _RouteLineState extends State<RouteLine> {
+//   late NaverMapController _controller;
+//   final NMarker marker1 = NMarker(
+//       id: '1',
+//       position: NLatLng(33.406035981908, 126.33670567287),
+//       icon: NOverlayImage.fromAssetImage("images/selfie.png"), size:Size(50, 50));
+//   final NMarker marker2 = NMarker(
+//       id: '2',
+//       position: NLatLng(33.469642627187, 126.34043921252),
+//       icon: NOverlayImage.fromAssetImage("images/selfie2.png"), size:Size(50, 50));
 
-  @override
-  Widget build(BuildContext context) {
-    return NaverMap(
-      onMapReady: (controller) {
-        _controller = controller;
-        _controller.addOverlay(marker1);
-        _controller.addOverlay(marker2);
-        NPathOverlay pathOverlay = NPathOverlay(id: "test", coords: [
-          NLatLng(33.406035981908, 126.33670567287),
-          NLatLng(33.469642627187, 126.34043921252)
-        ],
-          color: Color.fromRGBO(132, 116, 247, 100),
-        );
-        _controller.addOverlay(pathOverlay);
-      },
-      options: NaverMapViewOptions(
-          initialCameraPosition: NCameraPosition(
-              target: NLatLng(33.406035981908, 126.33670567287), zoom: 10)),
-    );
-  }
-}
+//   @override
+//   Widget build(BuildContext context) {
+//     return NaverMap(
+//       onMapReady: (controller) {
+//         _controller = controller;
+//         _controller.addOverlay(marker1);
+//         _controller.addOverlay(marker2);
+//         NPathOverlay pathOverlay = NPathOverlay(id: "test", coords: [
+//           NLatLng(33.406035981908, 126.33670567287),
+//           NLatLng(33.469642627187, 126.34043921252)
+//         ],
+//           color: Color.fromRGBO(132, 116, 247, 100),
+//         );
+//         _controller.addOverlay(pathOverlay);
+//       },
+//       options: NaverMapViewOptions(
+//           initialCameraPosition: NCameraPosition(
+//               target: NLatLng(33.406035981908, 126.33670567287), zoom: 10)),
+//     );
+//   }
+// }

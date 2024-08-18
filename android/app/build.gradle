@@ -69,5 +69,4 @@ flutter {
 }
 
 dependencies {
-//    implementation 'androidx.health:health-connect-client:1.0.0-alpha01' //health connect api 사용하기 위함
 }
