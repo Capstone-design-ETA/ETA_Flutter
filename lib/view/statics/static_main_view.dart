@@ -1,12 +1,12 @@
 import 'dart:collection';
 
 import 'package:eta_frontend/permission.dart';
-import 'package:eta_frontend/view/static_day_view.dart';
+import 'package:eta_frontend/view/statics/static_day_view.dart';
 import 'package:flutter/material.dart';
 import 'package:table_calendar/table_calendar.dart';
 import 'dart:math';
 
-import '../model/event.dart';
+import '../../model/event.dart';
 
 class StaticMainView extends StatefulWidget {
   const StaticMainView({super.key});
@@ -245,7 +245,7 @@ class _StaticMainViewState extends State<StaticMainView> {
           title: Text(
             '2023년 12월 통계',
             style: TextStyle(
-                color: Color.fromRGBO(132, 116, 247, 100),
+                color: Color.fromRGBO(233, 230, 255, 0.612),
                 fontWeight: FontWeight.bold),
           ),
           content: Padding(

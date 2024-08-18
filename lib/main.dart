@@ -3,7 +3,7 @@ import 'package:eta_frontend/view/sign-in/sign-up_body_view.dart';
 import 'package:eta_frontend/view/static_day_view.dart';
 import 'model/event.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_naver_map/flutter_naver_map.dart';
+// import 'package:flutter_naver_map/flutter_naver_map.dart';
 import 'view/map/map_view.dart';
 import 'package:eta_frontend/view/feeds_view.dart';
 import 'package:eta_frontend/view/writing_view.dart';
@@ -39,7 +39,7 @@ class _MyAppState extends State<MyApp> {
     return GetMaterialApp(
       debugShowCheckedModeBanner: false,
       title: 'ETA',
-      initialRoute: '/sign-in',
+      initialRoute: '/statics',
       routes: {
         '/sign-in': (context) => SignInView(),
         '/sign-up': (context) => SignupBodyView(),
