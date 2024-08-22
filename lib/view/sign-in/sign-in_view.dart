@@ -10,7 +10,7 @@ class SignInView extends StatelessWidget {
 
   void _signInWithGoogle(context) async {
     Navigator.of(context).push(
-      MaterialPageRoute(builder: (context) => OAuthWebView()),
+      MaterialPageRoute(builder: (context) => OAuthLoginPage()),
     );
   }
 
@@ -138,7 +138,7 @@ class _OAuthLoginPageState extends State<OAuthLoginPage> {
       await _controller.setBackgroundColor(Colors.transparent);
       await _controller.setPopupWindowPolicy(WebviewPopupWindowPolicy.deny);
       await _controller
-          .loadUrl('http://192.168.208.1:8080/oauth2/authorization/google');
+          .loadUrl('http://10.0.2.2:8080/oauth2/authorization/google');
 
       // _controller.addListener(() {
       //   if (_controller.value.url
@@ -167,12 +167,11 @@ class _OAuthLoginPageState extends State<OAuthLoginPage> {
               ? Webview(_controller)
               : Center(child: CircularProgressIndicator()))
           : WebView(
-              initialUrl:
-                  'http://192.168.208.1:8080/oauth2/authorization/google',
+              initialUrl: 'http://10.0.2.2:8080/oauth2/authorization/google',
               javascriptMode: JavascriptMode.unrestricted,
               navigationDelegate: (NavigationRequest request) {
-                if (request.url.startsWith(
-                    'http://192.168.208.1:8080/api/user/jwt-test')) {
+                if (request.url
+                    .startsWith('http://localhost:8080/api/user/jwt-test')) {
                   Uri uri = Uri.parse(request.url);
                   String accessToken = uri.queryParameters['accessToken'] ?? '';
                   if (accessToken.isNotEmpty) {
@@ -197,43 +196,5 @@ class _OAuthLoginPageState extends State<OAuthLoginPage> {
   void dispose() {
     _controller.dispose();
     super.dispose();
-  }
-}
-
-class OAuthWebView extends StatefulWidget {
-  @override
-  _OAuthWebViewState createState() => _OAuthWebViewState();
-}
-
-class _OAuthWebViewState extends State<OAuthWebView> {
-  @override
-  Widget build(BuildContext context) {
-    return Scaffold(
-      appBar: AppBar(
-        title: Text('OAuth2 Authorization'),
-      ),
-      body: WebView(
-        initialUrl: 'http://192.168.1.126:8080/login',
-        javascriptMode: JavascriptMode.unrestricted,
-        debuggingEnabled: true,
-        initialMediaPlaybackPolicy: AutoMediaPlaybackPolicy.always_allow,
-        onWebViewCreated: (WebViewController webViewController) {
-          // WebViewController 설정 (필요 시)
-        },
-        navigationDelegate: (NavigationRequest request) {
-          if (request.url.startsWith('http://192.168.1.126:8080/redirect')) {
-            // OAuth 인증 후 리디렉션을 처리하는 로직 추가
-            return NavigationDecision.prevent;
-          }
-          return NavigationDecision.navigate;
-        },
-        onPageStarted: (String url) {
-          print('Page started loading: $url');
-        },
-        onPageFinished: (String url) {
-          print('Page finished loading: $url');
-        },
-      ),
-    );
   }
 }
